@@ -33,7 +33,7 @@ function LoginPage() {
   return (
     <>
       <View className="index">
-        {/* <Text>此应用只属于一个人，若您无意进入，请离开sss</Text> */}
+        <Text>此应用只属于一个人，若您无意进入，请离开</Text>
       </View>
       <Button>点击进入</Button>
     </>

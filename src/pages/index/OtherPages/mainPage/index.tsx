@@ -1,5 +1,5 @@
 import { TabBar } from "antd-mobile";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export function MainPage() {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ export function MainPage() {
   };
   return (
     <>
+      <Outlet />
       <TabBar activeKey={pathname} onChange={(value) => setRouteActive(value)}>
         {tabs.map((item) => {
           return <TabBar.Item key={item.key} title={item.title} />;
