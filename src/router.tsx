@@ -1,25 +1,30 @@
 /* eslint-disable jsx-quotes */
-// import { UserOutlined } from "@ant-design/icons";
-import { View, Text, Button } from "@tarojs/components";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import Taro from "@tarojs/taro";
+import { useEffect } from "react";
 import { MainPage } from "./pages/index/OtherPages/mainPage";
-// import { MainPage } from "./pages/OtherPages/mainPage";
+import { LoginPage } from "./pages/index/OtherPages/loginPage";
 
-interface IRouter{
-  state:boolean
-}
-
-export function Routers(props: IRouter) {
+export function Routers() {
   
   const navigate = useNavigate()
-  if(props.state === true){
-    navigate('login')
-    console.log("1")
-  }
+  const location = useLocation();
+
+  useEffect(()=>{
+    let token = Taro.getStorageSync('token')
+    console.log(location)
+    if(token !== ''){
+      console.log(token+"1")
+      navigate('/main/home')
+    }else if(token === '' && !location.pathname.startsWith("/login")){
+      console.log(token)
+      navigate('/login')
+    }
+  }, [])
 
   return (
     <Routes>
-      <Route path="login/*" element={<LoginPage />} />
+      <Route path="login" element={<LoginPage />} />
       <Route path="main/*" element={<MainPage />}>
         <Route path="home" element={<Home />}></Route>
         <Route path="todo" element={<Todo />}></Route>
@@ -29,16 +34,7 @@ export function Routers(props: IRouter) {
     </Routes>
   );
 }
-function LoginPage() {
-  return (
-    <>
-      <View className="index">
-        <Text>此应用只属于一个人，若您无意进入，请离开</Text>
-      </View>
-      <Button>点击进入</Button>
-    </>
-  );
-}
+
 function Home() {
   return <>首页</>;
 }

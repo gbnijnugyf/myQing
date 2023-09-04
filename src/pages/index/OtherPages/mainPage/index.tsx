@@ -1,42 +1,62 @@
+/* eslint-disable jsx-quotes */
 import { TabBar } from "antd-mobile";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Badge, Tabbar } from "@taroify/core";
+import {
+  FriendsOutlined,
+  HomeOutlined,
+  Search,
+  SettingOutlined,
+} from "@taroify/icons";
+import {
+  Outlet,
+  createRoutesFromElements,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 export function MainPage() {
   const navigate = useNavigate();
-  const tabs = [
-    {
-      key: "pages/home",
-      title: "首页",
-    },
-    {
-      key: "pages/todo",
-      title: "待办",
-    },
-    {
-      key: "pages/message",
-      title: "消息",
-      badge: "99+",
-    },
-    {
-      key: "pages/my",
-      title: "我的",
-      badge: "1",
-    },
-  ];
-  const location = useLocation();
-  const { pathname } = location;
-  const setRouteActive = (value: string) => {
-    console.log(value);
-    navigate(value);
-  };
+  // const location = useLocation();
+
+  function BadgeTabbar() {
+    // function selectTabs(key: number) {
+    //   switch
+    // }
+
+    return (
+      <Tabbar
+        onChange={(props) => {
+          console.log(props);
+          navigate(props);
+        }}
+      >
+        <Tabbar.TabItem key="home" icon={<HomeOutlined />}>
+          首页
+        </Tabbar.TabItem>
+        <Tabbar.TabItem key="todo" badge icon={<Search />}>
+          标签
+        </Tabbar.TabItem>
+        <Tabbar.TabItem key="message" badge="5" icon={<FriendsOutlined />}>
+          标签
+        </Tabbar.TabItem>
+        <Tabbar.TabItem
+          key="my"
+          badge={<Badge content={100} max={99} />}
+          icon={<SettingOutlined />}
+        >
+          设置
+        </Tabbar.TabItem>
+      </Tabbar>
+    );
+  }
+
   return (
     <>
-      <Outlet />
-      <TabBar activeKey={pathname} onChange={(value) => setRouteActive(value)}>
-        {tabs.map((item) => {
-          return <TabBar.Item key={item.key} title={item.title} />;
-        })}
-      </TabBar>
+      <div className="outlet">
+        
+        <Outlet />
+      </div>
+      <BadgeTabbar />
     </>
   );
 }

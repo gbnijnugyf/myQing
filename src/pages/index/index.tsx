@@ -1,27 +1,47 @@
 /* eslint-disable jsx-quotes */
-import { View, Text, Button } from "@tarojs/components";
 import { BrowserRouter } from "react-router-dom";
-import { useLoad } from "@tarojs/taro";
 import { Routers } from "@/router";
-import { useState } from "react";
+import Taro, { useLoad } from "@tarojs/taro";
+import { useEffect, useState } from "react";
+
 import "./index.scss";
 
 export default function Index() {
   useLoad(() => {
     console.log("Page loaded.");
   });
-  const[state, setState] = useState<boolean>(false)
+  // const [state, setState] = useState<boolean>(false);
+  const [token, setToken] = useState<string>("");
+  useEffect(() => {
+    setToken(Taro.getStorageSync("token"));
+  }, [token]);
+
   return (
     <>
-      <View className="index">
-        <Button plain type="primary" size="mini" onClick={()=>setState(true)}>
-          点击进入
-        </Button>
-        <Text>Hello</Text>
-      </View>
-      <BrowserRouter>
-        <Routers state={state} />
-      </BrowserRouter>
+      <button
+        style={{
+          width: "auto",
+          height: "auto",
+          zIndex: "999",
+          position: "absolute",
+        }}
+        onClick={() => {
+          if (token !== "") {
+            Taro.removeStorageSync("token");
+            setToken("");
+          } else {
+            Taro.setStorageSync("token", "tokenQing");
+            setToken("tokenQing");
+          }
+        }}
+      >
+        {token !== "" ? "删除" : "生成"}token
+      </button>
+      <div className="board">
+        <BrowserRouter>
+          <Routers />
+        </BrowserRouter>
+      </div>
     </>
   );
 }
