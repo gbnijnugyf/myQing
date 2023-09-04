@@ -1,5 +1,4 @@
 /* eslint-disable jsx-quotes */
-import { TabBar } from "antd-mobile";
 import { Badge, Tabbar } from "@taroify/core";
 import {
   FriendsOutlined,
@@ -7,40 +6,70 @@ import {
   Search,
   SettingOutlined,
 } from "@taroify/icons";
-import {
-  Outlet,
-  createRoutesFromElements,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import "./index.scss";
 
 export function MainPage() {
+  const [colorArr, setColorArr] = useState<Array<string>>([
+    "green",
+    "black",
+    "black",
+    "black",
+  ]);
   const navigate = useNavigate();
-  // const location = useLocation();
 
   function BadgeTabbar() {
-    // function selectTabs(key: number) {
-    //   switch
-    // }
+    function selectTabs(value: string) {
+      console.log(value);
+      navigate(value);
+      let temp = ["black", "black", "black", "black"];
+      switch (value) {
+        case "home":
+          temp[0] = "green";
+          break;
+        case "todo":
+          temp[1] = "green";
+          break;
+        case "message":
+          temp[2] = "green";
+          break;
+        case "my":
+          temp[3] = "green";
+          break;
+      }
+      setColorArr(temp);
+    }
 
     return (
-      <Tabbar
-        onChange={(props) => {
-          console.log(props);
-          navigate(props);
-        }}
-      >
-        <Tabbar.TabItem key="home" icon={<HomeOutlined />}>
+      <Tabbar className="custom-color" onChange={(props) => selectTabs(props)}>
+        <Tabbar.TabItem
+          style={{ color: colorArr[0] }}
+          value="home"
+          icon={<HomeOutlined />}
+        >
           首页
         </Tabbar.TabItem>
-        <Tabbar.TabItem key="todo" badge icon={<Search />}>
-          标签
-        </Tabbar.TabItem>
-        <Tabbar.TabItem key="message" badge="5" icon={<FriendsOutlined />}>
+        <Tabbar.TabItem
+          style={{ color: colorArr[1] }}
+          value="todo"
+          badge
+          icon={<Search />}
+        >
           标签
         </Tabbar.TabItem>
         <Tabbar.TabItem
-          key="my"
+          style={{ color: colorArr[2] }}
+          value="message"
+          badge="5"
+          icon={<FriendsOutlined />}
+        >
+          标签
+        </Tabbar.TabItem>
+        <Tabbar.TabItem
+          style={{ color: colorArr[3] }}
+          value="my"
           badge={<Badge content={100} max={99} />}
           icon={<SettingOutlined />}
         >
@@ -53,7 +82,6 @@ export function MainPage() {
   return (
     <>
       <div className="outlet">
-        
         <Outlet />
       </div>
       <BadgeTabbar />
