@@ -1,5 +1,7 @@
 .board {
   display: flex;
   flex-direction: column;
+  //TODO:该flex属性为使内容中对齐，可能出现样式问题
+  justify-content: center;
   height: 100vh;
 }

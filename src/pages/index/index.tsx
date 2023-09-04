@@ -18,7 +18,7 @@ export default function Index() {
 
   return (
     <>
-      {/* <button
+      <button
         style={{
           width: "auto",
           height: "auto",
@@ -36,7 +36,7 @@ export default function Index() {
         }}
       >
         {token !== "" ? "删除" : "生成"}token
-      </button> */}
+      </button>
       <div className="board">
         <BrowserRouter>
           <Routers />
