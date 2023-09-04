@@ -2,8 +2,8 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Taro from "@tarojs/taro";
 import { useEffect } from "react";
-import { MainPage } from "./pages/index/OtherPages/mainPage";
-import { LoginPage } from "./pages/index/OtherPages/loginPage";
+import { MainPage } from "../pages/index/OtherPages/mainPage";
+import { LoginPage } from "../pages/index/OtherPages/loginPage";
 
 export function Routers() {
   

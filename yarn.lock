@@ -2094,6 +2094,15 @@
     "@tarojs/service" "3.6.15"
     "@tarojs/shared" "3.6.15"
 
+"@tarojs/plugin-http@^3.6.15":
+  version "3.6.15"
+  resolved "https://registry.npmmirror.com/@tarojs/plugin-http/-/plugin-http-3.6.15.tgz#b22e5e02e84570a7cb56a6c8761be197151c3411"
+  integrity sha512-+no9L27hfyGy7l1a1C6owiMAv8TsXNixf8O0rcDz4dpM2mGSulhy2rjXG621RL6A7+dPo2pBWi1EiLSWJ4buKQ==
+  dependencies:
+    "@tarojs/runtime" "3.6.15"
+    "@tarojs/service" "3.6.15"
+    "@tarojs/shared" "3.6.15"
+
 "@tarojs/plugin-platform-alipay@3.6.15":
   version "3.6.15"
   resolved "https://registry.npmmirror.com/@tarojs/plugin-platform-alipay/-/plugin-platform-alipay-3.6.15.tgz#c64919ab73cdb3c7d21900f92a11c95f80581ace"
@@ -3600,6 +3609,15 @@ aws4@^1.8.0:
   version "1.12.0"
   resolved "https://registry.npmmirror.com/aws4/-/aws4-1.12.0.tgz#ce1c9d143389679e253b314241ea9aa5cec980d3"
   integrity sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==
+
+axios@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/axios/-/axios-1.5.0.tgz#f02e4af823e2e46a9768cfc74691fdd0517ea267"
+  integrity sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 babel-helper-evaluate-path@^0.5.0:
   version "0.5.0"
@@ -6225,7 +6243,7 @@ flatted@^3.2.7:
   resolved "https://registry.npmmirror.com/flatted/-/flatted-3.2.7.tgz#609f39207cb614b89d0765b477cb2d437fbf9787"
   integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
 
-follow-redirects@^1.0.0:
+follow-redirects@^1.0.0, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmmirror.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -10027,6 +10045,11 @@ proxy-addr@~2.0.7:
   dependencies:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
+
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmmirror.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 prr@~1.0.1:
   version "1.0.1"

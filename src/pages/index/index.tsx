@@ -1,6 +1,6 @@
 /* eslint-disable jsx-quotes */
 import { BrowserRouter } from "react-router-dom";
-import { Routers } from "@/router";
+import { Routers } from "@/globe/router";
 import Taro, { useLoad } from "@tarojs/taro";
 import { useEffect, useState } from "react";
 

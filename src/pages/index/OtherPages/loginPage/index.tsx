@@ -4,25 +4,46 @@ import Taro from "@tarojs/taro";
 import { useNavigate } from "react-router-dom";
 import { BaseEventOrig, FormProps, View } from "@tarojs/components";
 import { useState } from "react";
-
+import { Service } from "@/globe/service";
+import { ILogin } from "@/globe/inter";
 import "./index.scss";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [toastOpen, setToastOpen] = useState<boolean>(true);
+  const [toastOpen1, setToastOpen1] = useState<boolean>(true);
+  const [toastOpen2, setToastOpen2] = useState<boolean>(false);
+  const [toastOpen3, setToastOpen3] = useState<boolean>(false);
 
   function LoginForm() {
     function clickLogin(event: BaseEventOrig<FormProps.onSubmitEventDetail>) {
-      const info = JSON.stringify(event.detail.value);
-      //TODO:用户名和密码在此处有安全问题
-      if (info === '{"username":"songsong","password":"mzq@20031112"}') {
-        Taro.setStorageSync("token", "tokenQing");
-        navigate("/main/home");
+      const info = event.detail.value as ILogin;
+      if (info.username !== "" && info.password !== "") {
+        Service.login(info)
+          .then((res) => {
+            if (res.data.data === "fail") {
+              setToastOpen2(true);
+              console.log("密码或用户名错误");
+              setTimeout(() => {
+                setToastOpen2(false);
+              }, 3000);
+            } else {
+              Taro.setStorageSync("token", "tokenQing");
+              navigate("/main/home");
+            }
+          })
+          .catch(() => {
+            setToastOpen3(true);
+            console.log("服务端错误，请稍后重试");
+            setTimeout(() => {
+              setToastOpen3(false);
+            }, 3000);
+          });
       }
     }
     return (
       <Form onSubmit={(e) => clickLogin(e)}>
-        <Toast id="toast" />
+        <Toast open={toastOpen2}>密码或用户名错误</Toast>
+        <Toast open={toastOpen3}>服务端错误，请稍后重试</Toast>
         <Cell.Group inset>
           <Form.Item
             name="username"
@@ -53,7 +74,7 @@ export function LoginPage() {
   }
 
   setTimeout(() => {
-    setToastOpen(false);
+    setToastOpen1(false);
   }, 7000);
 
   return (
@@ -62,7 +83,7 @@ export function LoginPage() {
         {/* <div className="login-board"> */}
         {/* <PasswordInput length={6} />
           <Button onClick={clickLogin}>登录</Button> */}
-        <Toast open={toastOpen} position="top">
+        <Toast open={toastOpen1} position="top">
           该程序只为一人编写，若您无意进入敬请离开
         </Toast>
         <h1 style={{ color: "rgb(240, 120, 186)", marginBottom: "5vh" }}>
