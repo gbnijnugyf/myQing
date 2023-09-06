@@ -73,9 +73,10 @@ export function LoginPage() {
     );
   }
 
+  //TODO:此处关闭提示会导致整个页面刷新，用户输入将被清空
   setTimeout(() => {
     setToastOpen1(false);
-  }, 7000);
+  }, 3000);
 
   return (
     <>

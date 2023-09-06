@@ -1,9 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { ILogin } from "./inter";
+import { BASEURL, IGetPicSwiper, ILogin } from "./inter";
 
-// export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";
-// export const BASEURL_MOCK = "http://localhost:8080";
-export const BASEURL = "http://localhost:8080";
+
 
 // 返回响应中data的类型
 export interface IGlobalResponse<T> {
@@ -58,5 +56,8 @@ export const Service = {
     login(props:ILogin){
       return GlobalAxios<string>("post", "/login", props)
     },
+    getPicSwiper(props:IGetPicSwiper){
+      return GlobalAxios<any>("post","/getPicSwiper", props)
+    }
     // upload(){}
 }

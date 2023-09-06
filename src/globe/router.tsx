@@ -4,6 +4,7 @@ import Taro from "@tarojs/taro";
 import { useEffect } from "react";
 import { LoginPage } from "@/pages/OtherPages/loginPage";
 import { MainPage } from "@/pages/OtherPages/mainPage";
+import { Home } from "@/pages/OtherPages/homePage";
 
 export function Routers() {
   
@@ -18,7 +19,7 @@ export function Routers() {
       navigate('/main/home')
     }else if(token === '' && !location.pathname.startsWith("/login")){
       console.log(token)
-      navigate('/login')
+      navigate('/main/home')
     }
   }, [])
 
@@ -35,11 +36,9 @@ export function Routers() {
   );
 }
 
-function Home() {
-  return <>首页</>;
-}
+
 function Todo() {
-  return <>代办</>;
+  return <>待办</>;
 }
 function Message() {
   return <>消息</>;

@@ -1,0 +1,25 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  min-width: 100vw;
+
+  .title {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    background-color: bisque;
+  }
+  .pic-swiper {
+    // border: 1px solid red;
+    min-width: 100vw;
+    min-height: 25vh;
+    .image-swiper {
+      img {
+        margin-left: 5%;
+        width: 90%;
+        // height: 100%;
+        // object-fit: cover;
+      }
+    }
+  }
+}
