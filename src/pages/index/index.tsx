@@ -8,9 +8,7 @@ import "./index.scss";
 
 export default function Index() {
   useLoad(() => {
-    console.log("Page loaded.");
   });
-  // const [state, setState] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   useEffect(() => {
     setToken(Taro.getStorageSync("token"));

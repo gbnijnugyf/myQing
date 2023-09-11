@@ -22,7 +22,6 @@ export function MainPage() {
 
   function BadgeTabbar() {
     function selectTabs(value: string) {
-      console.log(value);
       navigate(value);
       let temp = ["black", "black", "black", "black"];
       switch (value) {

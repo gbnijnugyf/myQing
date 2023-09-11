@@ -55,7 +55,10 @@ export default defineConfig(async (merge, {  }) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }
+      },
+      optimizeMainPackage: {
+        enable: true,
+      },
     },
     h5: {
       publicPath: '/',

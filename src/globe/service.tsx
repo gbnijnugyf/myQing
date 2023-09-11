@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { BASEURL, IGetPicSwiper, ILogin } from "./inter";
+import { BASEURL, IGetPicSwiper, IGetPicSwiper2, ILogin } from "./inter";
 
 
 
@@ -9,15 +9,13 @@ export interface IGlobalResponse<T> {
   msg: string;
   status: number;
 }
-
-function appendParams2Path(
+export function appendParams2Path(
   path: string,
   paramsRaw: string | URLSearchParams | string[][] | Record<string, string>
 ) {
   const params = new URLSearchParams(paramsRaw);
   return `${path}?${params.toString()}`;
 }
-
 async function GlobalAxios<T = any, D = any>(
   method: "post" | "get" | "delete",
   url: string,
@@ -58,6 +56,9 @@ export const Service = {
     },
     getPicSwiper(props:IGetPicSwiper){
       return GlobalAxios<any>("post","/getPicSwiper", props)
+    },
+    getPicTest(props:IGetPicSwiper2){
+      return GlobalAxios<undefined>("get", appendParams2Path("/getpictest", {...props}))
     }
     // upload(){}
 }

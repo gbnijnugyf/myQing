@@ -22,7 +22,6 @@ export function LoginPage() {
           .then((res) => {
             if (res.data.data === "fail") {
               setToastOpen2(true);
-              console.log("密码或用户名错误");
               setTimeout(() => {
                 setToastOpen2(false);
               }, 3000);
@@ -33,7 +32,6 @@ export function LoginPage() {
           })
           .catch(() => {
             setToastOpen3(true);
-            console.log("服务端错误，请稍后重试");
             setTimeout(() => {
               setToastOpen3(false);
             }, 3000);
