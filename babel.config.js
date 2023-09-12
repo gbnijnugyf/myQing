@@ -15,7 +15,7 @@ module.exports = {
         libraryDirectory: "",
         style: true,
       },
-      "@taroify/core",
+      "@taroify/core",  
     ],
     [
       "import",
@@ -27,5 +27,6 @@ module.exports = {
       },
       "@taroify/icons",
     ],
+    '@babel/plugin-transform-object-assign'
   ],
 }

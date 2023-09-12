@@ -61,7 +61,7 @@ export default defineConfig(async (merge, {  }) => {
       },
     },
     h5: {
-      publicPath: '/',
+      publicPath: './',
       staticDirectory: 'static',
       output: {
         filename: 'js/[name].[hash:8].js',
@@ -88,7 +88,46 @@ export default defineConfig(async (merge, {  }) => {
       esnextModules: ["@taroify"],
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }
+
+        //打包设置
+        // chain.merge({
+        //   module: {
+        //     rule: {
+        //       myloader: {
+        //         test: /\.js$/,
+        //         use: [
+        //           {
+        //             loader: 'babel-loader',
+        //             options: {},
+        //           },
+        //         ],
+        //       },
+        //     },
+        //   },
+        // });
+        // chain.merge({
+        //   module: {
+        //     rule: {
+        //       es5Loader: {
+        //         include: [
+        //           path.resolve(__dirname, "../node_modules"),
+        //         ],
+        //         test: /\.*[tj]s$/,
+        //         use: [
+        //           {
+        //             loader: "babel-loader",
+        //           }
+        //         ]
+        //       }
+        //     }
+        //   }
+        // });
+        
+      },
+      //打包设置
+      // compile: {
+      //   exclude: [(filename: string) => filename.includes('taro_components_include_trick')],
+      // }
     },
     rn: {
       appName: 'taroDemo',

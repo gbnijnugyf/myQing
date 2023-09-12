@@ -16,7 +16,7 @@ export function Home() {
     ];
 
     return (
-      <Swiper className="image-swiper" lazyRender autoplay={4000}>
+      <Swiper className="image-swiper" autoplay={4000}>
         <Swiper.Indicator />
         <Swiper.Item>
           <img className="image" src={swiperPicArr[0]}></img>
