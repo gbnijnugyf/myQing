@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
+    "@babel/plugin-transform-object-assign": "^7.22.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@tarojs/cli": "3.6.15",
     "@tarojs/taro-loader": "3.6.15",

@@ -19,7 +19,7 @@ export function Home() {
     ];
 
     return (
-      <Swiper className="image-swiper" lazyRender autoplay={4000}>
+      <Swiper className="image-swiper" autoplay={4000}>
         <Swiper.Indicator />
         <Swiper.Item>
           {/* TODO:图片首次加载缓慢以及再次get请求url出错 */}
