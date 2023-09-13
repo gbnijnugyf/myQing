@@ -5,20 +5,30 @@ import { useEffect } from "react";
 import { LoginPage } from "@/pages/OtherPages/loginPage";
 import { MainPage } from "@/pages/OtherPages/mainPage";
 import { Home } from "@/pages/OtherPages/homePage";
+import { Person } from "@/pages/OtherPages/personPage";
+import { Service } from "./service";
 
 export function Routers() {
-  
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(()=>{
-    let token = Taro.getStorageSync('token')
-    if(token !== '' && !location.pathname.startsWith("/login")){
-      navigate('/main/home')
-    }else if(token === '' && !location.pathname.startsWith("/login")){
-      navigate('/login')
+  useEffect(() => {
+    let token = Taro.getStorageSync("token");
+    if (token !== "" && !location.pathname.startsWith("/login")) {
+      Service.getPicSwiper({ id: "1", pass: "songzq12" }).catch((res) =>
+        console.log(res)
+      );
+      Service.getPicSwiper({ id: "2", pass: "songzq12" }).catch((res) =>
+        console.log(res)
+      );
+      Service.getPicSwiper({ id: "3", pass: "songzq12" }).catch((res) =>
+        console.log(res)
+      );
+      navigate("/main/home");
+    } else if (token === "" && !location.pathname.startsWith("/login")) {
+      navigate("/login");
     }
-  }, [])
+  }, []);
 
   return (
     <Routes>
@@ -33,13 +43,9 @@ export function Routers() {
   );
 }
 
-
 function Todo() {
   return <>待办</>;
 }
 function Message() {
   return <>消息</>;
-}
-function Person() {
-  return <>我的</>;
 }

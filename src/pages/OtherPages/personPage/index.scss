@@ -1,0 +1,16 @@
+.person-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+
+  .avatar{
+    border: 1px solid red;
+  }
+  .divider {
+    width: 100vw;
+  }
+  .content{
+    width: 90vw;
+  }
+}

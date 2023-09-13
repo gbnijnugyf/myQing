@@ -82,7 +82,7 @@ export function LoginPage() {
         {/* <div className="login-board"> */}
         {/* <PasswordInput length={6} />
           <Button onClick={clickLogin}>登录</Button> */}
-        <Toast open={toastOpen1} position="top">
+        <Toast open={toastOpen1}>
           该程序只为一人编写，若您无意进入敬请离开
         </Toast>
         <h1 style={{ color: "rgb(240, 120, 186)", marginBottom: "5vh" }}>

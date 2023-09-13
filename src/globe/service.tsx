@@ -54,11 +54,14 @@ export const Service = {
     login(props:ILogin){
       return GlobalAxios<string>("post", "/login", props)
     },
-    getPicSwiper(props:IGetPicSwiper){
-      return GlobalAxios<any>("post","/getPicSwiper", props)
+    // getPicSwiper(props:IGetPicSwiper){
+    //   return GlobalAxios<any>("post","/getPicSwiper", props)
+    // },
+    getPicSwiper(props:IGetPicSwiper2){
+      return GlobalAxios<undefined>("get", appendParams2Path("/getPicSwiper", {...props}))
     },
-    getPicTest(props:IGetPicSwiper2){
-      return GlobalAxios<undefined>("get", appendParams2Path("/getpictest", {...props}))
+    getPicTheme(props:IGetPicSwiper2){
+      return GlobalAxios<undefined>("get", appendParams2Path("/getPicTheme", {...props}))
     }
     // upload(){}
 }
