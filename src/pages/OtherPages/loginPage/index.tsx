@@ -64,7 +64,7 @@ export function LoginPage() {
         </Cell.Group>
         <View style={{ margin: "16px" }}>
           <Button shape="round" block color="primary" formType="submit">
-            提交
+            进入空间
           </Button>
         </View>
       </Form>

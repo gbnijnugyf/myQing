@@ -37,13 +37,13 @@ export function Home() {
   function ImageTheme() {
     const ThemePicArr = [
       BASEURL +
-        appendParams2Path("/getPicTheme", { id: "1", pass: "songzq12" }),
+        appendParams2Path("/getPicTheme", { id: "1-0", pass: "songzq12" }),
       BASEURL +
-        appendParams2Path("/getPicTheme", { id: "2", pass: "songzq12" }),
+        appendParams2Path("/getPicTheme", { id: "2-0", pass: "songzq12" }),
       BASEURL +
-        appendParams2Path("/getPicTheme", { id: "3", pass: "songzq12" }),
+        appendParams2Path("/getPicTheme", { id: "3-0", pass: "songzq12" }),
       BASEURL +
-        appendParams2Path("/getPicTheme", { id: "4", pass: "songzq12" }),
+        appendParams2Path("/getPicTheme", { id: "4-0", pass: "songzq12" }),
     ];
 
     function ImageLine() {}
