@@ -1,12 +1,20 @@
 {
+<<<<<<< HEAD
   "miniprogramRoot": "dist/",
   "description": "test",
+=======
+  "miniprogramRoot": "./dist",
+  "projectname": "myQing_test",
+  "description": "myQing",
+  "appid": "touristappid",
+>>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
   "setting": {
     "urlCheck": true,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
+<<<<<<< HEAD
     "minified": false,
     "babelSetting": {
       "ignore": [],
@@ -32,3 +40,9 @@
   },
   "appid": "wx2a0993314065574d"
 }
+=======
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
+>>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b

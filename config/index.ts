@@ -6,7 +6,11 @@ import prodConfig from './prod'
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, {  }) => {
   const baseConfig: UserConfigExport = {
+<<<<<<< HEAD
     projectName: 'test',
+=======
+    projectName: 'myQing_test',
+>>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
     date: '2023-9-2',
     designWidth: 750,
     deviceRatio: {
@@ -17,7 +21,16 @@ export default defineConfig(async (merge, {  }) => {
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
+<<<<<<< HEAD
     plugins: ['@tarojs/plugin-html'],
+=======
+    plugins: [
+      ['@tarojs/plugin-html', {
+        // 过滤 antd 组件库的前缀：am-
+        pxtransformBlackList: [/am-/, /demo-/, /^body/]
+      }]
+    ],
+>>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
     defineConstants: {
     },
     copy: {
