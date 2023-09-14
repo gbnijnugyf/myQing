@@ -1,15 +1,8 @@
 {
-<<<<<<< HEAD
-  "name": "test",
-  "version": "1.0.0",
-  "private": true,
-  "description": "test",
-=======
   "name": "myQing_test",
   "version": "1.0.0",
   "private": true,
   "description": "myQing",
->>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
   "templateInfo": {
     "name": "default",
     "typescript": true,
@@ -44,13 +37,13 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.21.5",
+    "@taroify/core": "^0.1.0-alpha.11",
     "@tarojs/components": "3.6.15",
     "@tarojs/helper": "3.6.15",
     "@tarojs/plugin-framework-react": "3.6.15",
-<<<<<<< HEAD
     "@tarojs/plugin-html": "^3.6.15",
-=======
->>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
+    "@tarojs/plugin-http": "^3.6.15",
+
     "@tarojs/plugin-platform-alipay": "3.6.15",
     "@tarojs/plugin-platform-h5": "3.6.15",
     "@tarojs/plugin-platform-jd": "3.6.15",
@@ -62,17 +55,16 @@
     "@tarojs/runtime": "3.6.15",
     "@tarojs/shared": "3.6.15",
     "@tarojs/taro": "3.6.15",
-<<<<<<< HEAD
-=======
     "antd": "^5.8.5",
->>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
     "antd-mobile": "^5.32.1",
+    "axios": "^1.5.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
+    "@babel/plugin-transform-object-assign": "^7.22.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@tarojs/cli": "3.6.15",
     "@tarojs/taro-loader": "3.6.15",
@@ -84,6 +76,7 @@
     "@types/webpack-env": "^1.13.6",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
+    "babel-plugin-import": "^1.13.8",
     "babel-preset-taro": "3.6.15",
     "eslint": "^8.12.0",
     "eslint-config-taro": "3.6.15",

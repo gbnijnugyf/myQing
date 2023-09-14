@@ -1,0 +1,10 @@
+.outlet {
+  display: flex;
+  border: 1px solid black;
+  height: 94vh;
+  width: 100vw;
+}
+.custom-color {
+  --tabbar-item-color: #000;
+  --tabbar-item-active-color: #ee0a24;
+}

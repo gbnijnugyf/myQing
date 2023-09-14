@@ -1,48 +1,15 @@
 {
-<<<<<<< HEAD
-  "miniprogramRoot": "dist/",
-  "description": "test",
-=======
   "miniprogramRoot": "./dist",
   "projectname": "myQing_test",
   "description": "myQing",
   "appid": "touristappid",
->>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
   "setting": {
     "urlCheck": true,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
-<<<<<<< HEAD
-    "minified": false,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "coverView": false,
-    "showShadowRootInWxmlPanel": false,
-    "packNpmRelationList": [],
-    "ignoreUploadUnusedFiles": true
-  },
-  "compileType": "miniprogram",
-  "srcMiniprogramRoot": "dist/",
-  "condition": {},
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
-  },
-  "libVersion": "3.0.1",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
-  "appid": "wx2a0993314065574d"
-}
-=======
     "minified": false
   },
   "compileType": "miniprogram"
 }
->>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b

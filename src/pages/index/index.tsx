@@ -1,39 +1,45 @@
-import { View, Text, Button } from "@tarojs/components";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
-import { useLoad } from "@tarojs/taro";
+/* eslint-disable jsx-quotes */
+import { BrowserRouter } from "react-router-dom";
+import { Routers } from "@/globe/router";
+import Taro, { useLoad } from "@tarojs/taro";
+import { useEffect, useState } from "react";
+
 import "./index.scss";
 
 export default function Index() {
   useLoad(() => {
-    console.log("Page loaded.");
   });
+  const [token, setToken] = useState<string>("");
+  useEffect(() => {
+    setToken(Taro.getStorageSync("token"));
+  }, [token]);
 
   return (
     <>
-      <View className='index'>
-        <Text>Hello world!</Text>
-      </View>
-      <Button>das</Button>
-      <BrowserRouter>
-        <View className='drawer-box'>
-          <View className='box-item'>
-            <Link to='/pages/router/index/view1?a=1&b=2'>view1</Link>
-          </View>
-          <View className='box-item'>
-            <Link to='/pages/router/index/view2#a=3&b=4'>view2</Link>
-          </View>
-          <View className='box-item'>
-            <Link to='/pages/router/index/2?a=1&b=2#a=3&b=4'>view3</Link>
-          </View>
-        </View>
-
-        <Routes>
-          <Route path='/pages/browser-router/index' element={<Home />}></Route>
-          <Route path='/pages/router/index/view1' element={<View1 />}></Route>
-          <Route path='/pages/router/index/view2' element={<View2 />}></Route>
-          <Route path='/pages/router/index/:id' element={<View3 />}></Route>
-        </Routes>
-      </BrowserRouter>
+      {/* <button
+        style={{
+          width: "auto",
+          height: "auto",
+          zIndex: "999",
+          position: "absolute",
+        }}
+        onClick={() => {
+          if (token !== "") {
+            Taro.removeStorageSync("token");
+            setToken("");
+          } else {
+            Taro.setStorageSync("token", "tokenQing");
+            setToken("tokenQing");
+          }
+        }}
+      >
+        {token !== "" ? "删除" : "生成"}token
+      </button> */}
+      <div className="board">
+        <BrowserRouter>
+          <Routers />
+        </BrowserRouter>
+      </div>
     </>
   );
 }

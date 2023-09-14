@@ -1,10 +1,6 @@
 {
   "miniprogramRoot": "./",
-<<<<<<< HEAD
-  "projectname": "test",
-=======
   "projectname": "myQing_test",
->>>>>>> a1a98775b97fe201fca717dc1da6d03b300f3a0b
   "appid": "testAppId",
   "setting": {
     "es6": false,
