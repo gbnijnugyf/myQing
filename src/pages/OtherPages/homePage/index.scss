@@ -72,15 +72,15 @@ $GETPASS: "pass=songzq12";
           // &.a {
           //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=1&#{$GETPASS}");
           // }
-          &.b {
-            background-image: url("#{$BASEURL}#{$GETPICPATH}?id=2&#{$GETPASS}");
-          }
-          &.c {
-            background-image: url("#{$BASEURL}#{$GETPICPATH}?id=3&#{$GETPASS}");
-          }
-          &.d {
-            background-image: url("#{$BASEURL}#{$GETPICPATH}?id=4&#{$GETPASS}");
-          }
+          // &.b {
+          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=2&#{$GETPASS}");
+          // }
+          // &.c {
+          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=3&#{$GETPASS}");
+          // }
+          // &.d {
+          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=4&#{$GETPASS}");
+          // }
         }
       }::-webkit-scrollbar {
         display: none;

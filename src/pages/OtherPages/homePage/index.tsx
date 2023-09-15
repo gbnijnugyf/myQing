@@ -73,6 +73,11 @@ export function Home() {
               className="img a"
               style={{ backgroundImage: `url(${ThemePicArr[0]})` }}
             ></div>
+            <div
+              className="img a"
+              style={{ backgroundImage: `url(${ThemePicArr[0]})` }}
+            ></div>
+            
           </div>
           <Divider className="divider2" style={{ color: "black" }} dashed />
         </div>
@@ -80,21 +85,30 @@ export function Home() {
         <div className="dif-theme">
           <p>美食</p>
           <div className="img-line">
-            <div className="img b"></div>
+            <div
+              className="img b"
+              style={{ backgroundImage: `url(${ThemePicArr[1]})` }}
+            ></div>
           </div>
           <Divider className="divider2" style={{ color: "black" }} dashed />
         </div>
         <div className="dif-theme">
           <p>晴宝</p>
           <div className="img-line">
-            <div className="img c"></div>
+            <div
+              className="img c"
+              style={{ backgroundImage: `url(${ThemePicArr[2]})` }}
+            ></div>
           </div>
           <Divider className="divider2" style={{ color: "black" }} dashed />
         </div>
         <div className="dif-theme">
           <p>宋宋</p>
           <div className="img-line">
-            <div className="img d"></div>
+            <div
+              className="img d"
+              style={{ backgroundImage: `url(${ThemePicArr[3]})` }}
+            ></div>
           </div>
           <Divider className="divider2" style={{ color: "black" }} dashed />
         </div>
