@@ -2,13 +2,14 @@ export interface ILogin {
   username: string;
   password: string;
 }
+
 export interface IGetPicSwiper {
-  picType: string;
-  picNumber: string;
-}
-export interface IGetPicSwiper2 {
   id: string;
   pass: string;
+}
+
+export interface IGetPicThemeArr {
+  imageIndex: string;
 }
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";

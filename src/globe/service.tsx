@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { BASEURL, IGetPicSwiper, IGetPicSwiper2, ILogin } from "./inter";
+import { BASEURL, IGetPicSwiper, IGetPicThemeArr, ILogin } from "./inter";
 
 
 
@@ -57,10 +57,14 @@ export const Service = {
     // getPicSwiper(props:IGetPicSwiper){
     //   return GlobalAxios<any>("post","/getPicSwiper", props)
     // },
-    getPicSwiper(props:IGetPicSwiper2){
+    getPicSwiper(props:IGetPicSwiper){
       return GlobalAxios<undefined>("get", appendParams2Path("/getPicSwiper", {...props}))
     },
-    getPicTheme(props:IGetPicSwiper2){
+    //获取各主体图片数量，data以number数组格式返回，如[2，2，1，3]
+    getPicThemeArrNum(props:IGetPicThemeArr){
+      return GlobalAxios<Array<number>>("get",appendParams2Path("/getPicThemeArrNum", {...props}))
+    },
+    getPicTheme(props:IGetPicSwiper){
       return GlobalAxios<undefined>("get", appendParams2Path("/getPicTheme", {...props}))
     }
     // upload(){}
