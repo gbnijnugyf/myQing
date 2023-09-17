@@ -44,7 +44,7 @@ $GETPASS: "pass=songzq12";
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      border: 1px solid red;
+      // border: 1px solid red;
       height: 25%;
       width: 100vw;
       overflow-x: scroll;
@@ -58,6 +58,7 @@ $GETPASS: "pass=songzq12";
         width: 100vw;
         height: 100%;
         overflow-x: scroll;
+        overflow-y: hidden;
         margin-left: 0%;
         
         .img {
@@ -69,23 +70,15 @@ $GETPASS: "pass=songzq12";
           background-repeat: no-repeat;
           background-position: center;
           background-size: 100%;
-          // &.a {
-          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=1&#{$GETPASS}");
-          // }
-          // &.b {
-          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=2&#{$GETPASS}");
-          // }
-          // &.c {
-          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=3&#{$GETPASS}");
-          // }
-          // &.d {
-          //   background-image: url("#{$BASEURL}#{$GETPICPATH}?id=4&#{$GETPASS}");
-          // }
+        }
+        .upload{
+          padding-top: 2%;
+          margin-left: 4%;
         }
       }::-webkit-scrollbar {
         display: none;
       }
-
+      
       .divider2 {
         margin-left: 2.5vw;
         margin-top: 1%;

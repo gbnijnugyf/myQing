@@ -1,6 +1,6 @@
 /* eslint-disable jsx-quotes */
-import { Like } from "@taroify/icons";
-import { Divider, Swiper } from "@taroify/core";
+import { Like, AddOutlined } from "@taroify/icons";
+import { Divider, Swiper, Uploader } from "@taroify/core";
 import { BASEURL } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
@@ -8,9 +8,18 @@ import { useLocation } from "react-router-dom";
 
 import "./index.scss";
 
+interface ITheme {
+  key: string;
+  value: string;
+}
+interface IImageLine {
+  theme: ITheme;
+  picArr: string[];
+}
+
 export function Home() {
   // let themePicArr;
-  const location = useLocation()
+  const location = useLocation();
   const [themePicArr, setThemePicArr] = useState<string[][]>();
   useEffect(() => {
     Service.getPicThemeArrNum({ imageIndex: "theme" }).then((res) => {
@@ -35,11 +44,9 @@ export function Home() {
       setThemePicArr(tempArr);
     });
     console.log(themePicArr);
-  },[location]);
+  }, [location]);
 
   function ImageSwiper() {
-    // const imgUrl = BASEURL + "/images/";
-  
     const swiperPicArr = Array.from({ length: 3 }).map((_item, index) => {
       return (
         BASEURL +
@@ -49,14 +56,6 @@ export function Home() {
         })
       );
     });
-    // const swiperPicArr = [
-    //   BASEURL +
-    //     appendParams2Path("/getPicSwiper", { id: "1", pass: "songzq12" }),
-    //   BASEURL +
-    //     appendParams2Path("/getPicSwiper", { id: "2", pass: "songzq12" }),
-    //   BASEURL +
-    //     appendParams2Path("/getPicSwiper", { id: "3", pass: "songzq12" }),
-    // ];
 
     return (
       <Swiper className="image-swiper" lazyRender autoplay={4000}>
@@ -85,72 +84,67 @@ export function Home() {
     //   BASEURL +
     //     appendParams2Path("/getPicTheme", { id: "4-0", pass: "songzq12" }),
     // ];
-    console.log(themePicArr)
-    function ImageLine() {}
+
+    function ImageLine(props: IImageLine) {
+      const [file, setFile] = useState<Uploader.File>();
+      console.log(props);
+
+      return (
+        <div className="dif-theme">
+          <p>{props.theme.value}</p>
+          <div className="img-line">
+            {props.picArr.map((item) => (
+              <>
+              <div
+                key={item}
+                className="img"
+                style={{ backgroundImage: `url(${item})` }}
+              ></div>
+              <div
+                key={item}
+                className="img"
+                style={{ backgroundImage: `url(${item})` }}
+              ></div>
+              <div
+                key={item}
+                className="img"
+                style={{ backgroundImage: `url(${item})` }}
+              ></div>
+              </>
+            ))}
+            <Uploader className="upload" value={file}>
+              <AddOutlined size="45%" />
+            </Uploader>
+          </div>
+          <Divider className="divider2" style={{ color: "black" }} dashed />
+        </div>
+      );
+    }
 
     return (
       <>
-        {/* <div className="dif-theme">
-          <p>我们</p>
-          <div className="img-line">
-            <div
-              className="img a"
-              style={{ backgroundImage: `url(${themePicArr[0][0]})` }}
-            ></div>
-            <div
-              className="img a"
-              style={{ backgroundImage: `url(${themePicArr[0][0]})` }}
-            ></div>
-            <div
-              className="img a"
-              style={{ backgroundImage: `url(${themePicArr[0][0]})` }}
-            ></div>
-            <div
-              className="img a"
-              style={{ backgroundImage: `url(${themePicArr[0][0]})` }}
-            ></div>
-            <div
-              className="img a"
-              style={{ backgroundImage: `url(${themePicArr[0][0]})` }}
-            ></div>
-            <div
-              className="img a"
-              style={{ backgroundImage: `url(${themePicArr[0][0]})` }}
-            ></div>
-          </div>
-          <Divider className="divider2" style={{ color: "black" }} dashed />
-        </div>
-
-        <div className="dif-theme">
-          <p>美食</p>
-          <div className="img-line">
-            <div
-              className="img b"
-              style={{ backgroundImage: `url(${themePicArr[1][0]})` }}
-            ></div>
-          </div>
-          <Divider className="divider2" style={{ color: "black" }} dashed />
-        </div>
-        <div className="dif-theme">
-          <p>晴宝</p>
-          <div className="img-line">
-            <div
-              className="img c"
-              style={{ backgroundImage: `url(${themePicArr[2][0]})` }}
-            ></div>
-          </div>
-          <Divider className="divider2" style={{ color: "black" }} dashed />
-        </div>
-        <div className="dif-theme">
-          <p>宋宋</p>
-          <div className="img-line">
-            <div
-              className="img d"
-              style={{ backgroundImage: `url(${themePicArr[3][0]})` }}
-            ></div>
-          </div>
-          <Divider className="divider2" style={{ color: "black" }} dashed />
-        </div> */}
+        {themePicArr != undefined ? (
+          <>
+          <ImageLine
+            theme={{ key: "theme1", value: "我们" }}
+            picArr={themePicArr[0]}
+          />
+          <ImageLine
+            theme={{ key: "theme2", value: "美食" }}
+            picArr={themePicArr[1]}
+          />
+          <ImageLine
+            theme={{ key: "theme3", value: "晴宝" }}
+            picArr={themePicArr[2]}
+          />
+          <ImageLine
+            theme={{ key: "theme4", value: "宋宋" }}
+            picArr={themePicArr[3]}
+          />
+          </>
+        ) : (
+          <>暂无可展示数据</>
+        )}
       </>
     );
   }
