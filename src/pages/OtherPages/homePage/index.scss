@@ -60,7 +60,7 @@ $GETPASS: "pass=songzq12";
         overflow-x: scroll;
         overflow-y: hidden;
         margin-left: 0%;
-        
+
         .img {
           flex-shrink: 0;
           margin-left: 4%;
@@ -71,14 +71,15 @@ $GETPASS: "pass=songzq12";
           background-position: center;
           background-size: 100%;
         }
-        .upload{
-          padding-top: 2%;
-          margin-left: 4%;
+        .upload {
+          margin: auto;
+          margin-left: 0%;
         }
-      }::-webkit-scrollbar {
+      }
+      ::-webkit-scrollbar {
         display: none;
       }
-      
+
       .divider2 {
         margin-left: 2.5vw;
         margin-top: 1%;

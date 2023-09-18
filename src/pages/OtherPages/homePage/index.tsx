@@ -1,10 +1,12 @@
 /* eslint-disable jsx-quotes */
-import { Like, AddOutlined } from "@taroify/icons";
-import { Divider, Swiper, Uploader } from "@taroify/core";
+import { Like, PhotoOutlined } from "@taroify/icons";
+import { Divider, Swiper, Uploader, Button } from "@taroify/core";
 import { BASEURL } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
+import { Image } from "@tarojs/components";
 import { useLocation } from "react-router-dom";
+import Taro from "@tarojs/taro";
 
 import "./index.scss";
 
@@ -86,8 +88,37 @@ export function Home() {
     // ];
 
     function ImageLine(props: IImageLine) {
-      const [file, setFile] = useState<Uploader.File>();
       console.log(props);
+
+      function ImageUploader() {
+        const [file, setFile] = useState<Uploader.File>();
+
+        function onUpload() {
+          Taro.chooseImage({
+            count: 3,
+            sizeType: ["original", "compressed"],
+            sourceType: ["album", "camera"],
+            success: (res) => {
+              console.log(res);
+
+            },
+            fail: (res) => console.log(res),
+          });
+        }
+
+        return (
+          <Uploader
+            className="upload"
+            value={file}
+            onUpload={onUpload}
+            onChange={setFile}
+          >
+            <Button onClick={onUpload} variant="text" color="default">
+              <PhotoOutlined size="45%" />
+            </Button>
+          </Uploader>
+        );
+      }
 
       return (
         <div className="dif-theme">
@@ -95,26 +126,29 @@ export function Home() {
           <div className="img-line">
             {props.picArr.map((item) => (
               <>
-              <div
-                key={item}
-                className="img"
-                style={{ backgroundImage: `url(${item})` }}
-              ></div>
-              <div
-                key={item}
-                className="img"
-                style={{ backgroundImage: `url(${item})` }}
-              ></div>
-              <div
-                key={item}
-                className="img"
-                style={{ backgroundImage: `url(${item})` }}
-              ></div>
+                <div
+                  key={item}
+                  className="img"
+                  // style={{ backgroundImage: `url(${item})` }}
+                >
+                  <Image
+                    style="border-radius: 15%;height: 100%; width:100%"
+                    src={item}
+                    onClick={() => {
+                      let current = item; //这里获取到的是一张本地的图片
+                      Taro.previewImage({
+                        current: current, //需要预览的图片链接列表
+                        urls: [current], //当前显示图片的链接
+                        enablesavephoto: true,
+                        enableShowPhotoDownload: true,
+                      });
+                    }}
+                    mode="aspectFill"
+                  />
+                </div>
               </>
             ))}
-            <Uploader className="upload" value={file}>
-              <AddOutlined size="45%" />
-            </Uploader>
+            <ImageUploader />
           </div>
           <Divider className="divider2" style={{ color: "black" }} dashed />
         </div>
@@ -125,22 +159,22 @@ export function Home() {
       <>
         {themePicArr != undefined ? (
           <>
-          <ImageLine
-            theme={{ key: "theme1", value: "我们" }}
-            picArr={themePicArr[0]}
-          />
-          <ImageLine
-            theme={{ key: "theme2", value: "美食" }}
-            picArr={themePicArr[1]}
-          />
-          <ImageLine
-            theme={{ key: "theme3", value: "晴宝" }}
-            picArr={themePicArr[2]}
-          />
-          <ImageLine
-            theme={{ key: "theme4", value: "宋宋" }}
-            picArr={themePicArr[3]}
-          />
+            <ImageLine
+              theme={{ key: "theme1", value: "我们" }}
+              picArr={themePicArr[0]}
+            />
+            <ImageLine
+              theme={{ key: "theme2", value: "美食" }}
+              picArr={themePicArr[1]}
+            />
+            <ImageLine
+              theme={{ key: "theme3", value: "晴宝" }}
+              picArr={themePicArr[2]}
+            />
+            <ImageLine
+              theme={{ key: "theme4", value: "宋宋" }}
+              picArr={themePicArr[3]}
+            />
           </>
         ) : (
           <>暂无可展示数据</>
