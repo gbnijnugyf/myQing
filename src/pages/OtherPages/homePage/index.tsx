@@ -1,7 +1,7 @@
 /* eslint-disable jsx-quotes */
 import { Like, PhotoOutlined } from "@taroify/icons";
 import { Divider, Swiper, Uploader, Button } from "@taroify/core";
-import { BASEURL } from "@/globe/inter";
+import { BASEURL, IPostPicTheme } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
 import { Image } from "@tarojs/components";
@@ -23,6 +23,7 @@ export function Home() {
   // let themePicArr;
   const location = useLocation();
   const [themePicArr, setThemePicArr] = useState<string[][]>();
+  const [uploadFlag, setUploadFlag] = useState<boolean>(false);
   useEffect(() => {
     Service.getPicThemeArrNum({ imageIndex: "theme" }).then((res) => {
       const ArrNum = res.data.data;
@@ -46,7 +47,7 @@ export function Home() {
       setThemePicArr(tempArr);
     });
     console.log(themePicArr);
-  }, [location]);
+  }, [location, uploadFlag]);
 
   function ImageSwiper() {
     const swiperPicArr = Array.from({ length: 3 }).map((_item, index) => {
@@ -76,32 +77,33 @@ export function Home() {
     );
   }
   function ImageTheme() {
-    // const themePicArr = [
-    //   BASEURL +
-    //     appendParams2Path("/getPicTheme", { id: "1-0", pass: "songzq12" }),
-    //   BASEURL +
-    //     appendParams2Path("/getPicTheme", { id: "2-0", pass: "songzq12" }),
-    //   BASEURL +
-    //     appendParams2Path("/getPicTheme", { id: "3-0", pass: "songzq12" }),
-    //   BASEURL +
-    //     appendParams2Path("/getPicTheme", { id: "4-0", pass: "songzq12" }),
-    // ];
-
     function ImageLine(props: IImageLine) {
       console.log(props);
 
       function ImageUploader() {
         const [file, setFile] = useState<Uploader.File>();
+        const successFunc = async (res) => {
+          const formData = new FormData();
+          for (let i = 0; i < res.tempFiles.length; i++) {
+            const item = res.tempFiles[i];
+            const response = await fetch(item.path);
+            const blob = await response.blob();
+            formData.append("image[]", blob);
+          }
+          formData.append("imageIndex", props.theme.key);
+          console.log(formData);
+          Service.postPicTheme(formData).then((r) => {
+            console.log(r);
+            setUploadFlag(!uploadFlag);
+          });
+        };
 
         function onUpload() {
           Taro.chooseImage({
             count: 3,
             sizeType: ["original", "compressed"],
             sourceType: ["album", "camera"],
-            success: (res) => {
-              console.log(res);
-
-            },
+            success: successFunc,
             fail: (res) => console.log(res),
           });
         }
@@ -129,7 +131,6 @@ export function Home() {
                 <div
                   key={item}
                   className="img"
-                  // style={{ backgroundImage: `url(${item})` }}
                 >
                   <Image
                     style="border-radius: 15%;height: 100%; width:100%"
@@ -159,22 +160,22 @@ export function Home() {
       <>
         {themePicArr != undefined ? (
           <>
-            <ImageLine
+            {/* <ImageLine
               theme={{ key: "theme1", value: "我们" }}
               picArr={themePicArr[0]}
-            />
+            /> */}
             <ImageLine
               theme={{ key: "theme2", value: "美食" }}
               picArr={themePicArr[1]}
             />
-            <ImageLine
+            {/* <ImageLine
               theme={{ key: "theme3", value: "晴宝" }}
               picArr={themePicArr[2]}
             />
             <ImageLine
               theme={{ key: "theme4", value: "宋宋" }}
               picArr={themePicArr[3]}
-            />
+            /> */}
           </>
         ) : (
           <>暂无可展示数据</>
@@ -187,9 +188,9 @@ export function Home() {
     <div className="home-page">
       <div className="title">
         <div>
-          宋宋
+          {/* 宋宋
           <Like color="red" />
-          晴宝
+          晴宝 */}
         </div>
       </div>
       <div className="pic-swiper">

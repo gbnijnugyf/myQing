@@ -1,7 +1,11 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { BASEURL, IGetPicSwiper, IGetPicThemeArr, ILogin } from "./inter";
-
-
+import {
+  BASEURL,
+  IGetPicSwiper,
+  IGetPicThemeArr,
+  ILogin,
+  IPostPicTheme,
+} from "./inter";
 
 // 返回响应中data的类型
 export interface IGlobalResponse<T> {
@@ -21,8 +25,6 @@ async function GlobalAxios<T = any, D = any>(
   url: string,
   data?: D
 ): Promise<AxiosResponse<IGlobalResponse<T>, any>> {
-
-
   let config: AxiosRequestConfig<D> = {};
   config.baseURL = BASEURL;
 
@@ -51,21 +53,34 @@ async function GlobalAxios<T = any, D = any>(
 }
 
 export const Service = {
-    login(props:ILogin){
-      return GlobalAxios<string>("post", "/login", props)
-    },
-    // getPicSwiper(props:IGetPicSwiper){
-    //   return GlobalAxios<any>("post","/getPicSwiper", props)
-    // },
-    getPicSwiper(props:IGetPicSwiper){
-      return GlobalAxios<undefined>("get", appendParams2Path("/getPicSwiper", {...props}))
-    },
-    //获取各主体图片数量，data以number数组格式返回，如[2，2，1，3]
-    getPicThemeArrNum(props:IGetPicThemeArr){
-      return GlobalAxios<Array<number>>("get",appendParams2Path("/getPicThemeArrNum", {...props}))
-    },
-    getPicTheme(props:IGetPicSwiper){
-      return GlobalAxios<undefined>("get", appendParams2Path("/getPicTheme", {...props}))
-    }
-    // upload(){}
-}
+  login(props: ILogin) {
+    return GlobalAxios<string>("post", "/login", props);
+  },
+  // getPicSwiper(props:IGetPicSwiper){
+  //   return GlobalAxios<any>("post","/getPicSwiper", props)
+  // },
+  getPicSwiper(props: IGetPicSwiper) {
+    return GlobalAxios<undefined>(
+      "get",
+      appendParams2Path("/getPicSwiper", { ...props })
+    );
+  },
+  //获取各主体图片数量，data以number数组格式返回，如[2，2，1，3]
+  getPicThemeArrNum(props: IGetPicThemeArr) {
+    return GlobalAxios<Array<number>>(
+      "get",
+      appendParams2Path("/getPicThemeArrNum", { ...props })
+    );
+  },
+  getPicTheme(props: IGetPicSwiper) {
+    return GlobalAxios<undefined>(
+      "get",
+      appendParams2Path("/getPicTheme", { ...props })
+    );
+  },
+  //上传图片，返回的number为成功上传图片数量
+  postPicTheme(props: FormData) {
+    return GlobalAxios<number>("post", "/postPicTheme", props);
+  },
+  // upload(){}
+};
