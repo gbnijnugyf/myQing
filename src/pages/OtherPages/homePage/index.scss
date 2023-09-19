@@ -70,6 +70,12 @@ $GETPASS: "pass=songzq12";
           background-repeat: no-repeat;
           background-position: center;
           background-size: 100%;
+
+          .delete-button{
+            position: relative;
+            margin-bottom: -42%;
+            z-index: 10;
+          }
         }
         .upload {
           margin: auto;

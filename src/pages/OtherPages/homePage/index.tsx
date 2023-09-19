@@ -1,10 +1,10 @@
 /* eslint-disable jsx-quotes */
-import { Like, PhotoOutlined } from "@taroify/icons";
+import { Like, PhotoOutlined, Clear } from "@taroify/icons";
 import { Divider, Swiper, Uploader, Button } from "@taroify/core";
 import { BASEURL, IPostPicTheme } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
-import { Image } from "@tarojs/components";
+import { Icon, Image } from "@tarojs/components";
 import { useLocation } from "react-router-dom";
 import Taro from "@tarojs/taro";
 
@@ -128,10 +128,11 @@ export function Home() {
           <div className="img-line">
             {props.picArr.map((item) => (
               <>
-                <div
-                  key={item}
-                  className="img"
-                >
+                <div key={item} className="img">
+                  <div className="delete-button">
+                    <Clear onClick={() => console.log("111")} />
+                  </div>
+
                   <Image
                     style="border-radius: 15%;height: 100%; width:100%"
                     src={item}
@@ -160,22 +161,22 @@ export function Home() {
       <>
         {themePicArr != undefined ? (
           <>
-            {/* <ImageLine
+            <ImageLine
               theme={{ key: "theme1", value: "我们" }}
               picArr={themePicArr[0]}
-            /> */}
+            />
             <ImageLine
               theme={{ key: "theme2", value: "美食" }}
               picArr={themePicArr[1]}
             />
-            {/* <ImageLine
+            <ImageLine
               theme={{ key: "theme3", value: "晴宝" }}
               picArr={themePicArr[2]}
             />
             <ImageLine
               theme={{ key: "theme4", value: "宋宋" }}
               picArr={themePicArr[3]}
-            /> */}
+            />
           </>
         ) : (
           <>暂无可展示数据</>
