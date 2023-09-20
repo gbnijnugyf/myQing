@@ -20,7 +20,7 @@ export function LoginPage() {
       if (info.username !== "" && info.password !== "") {
         Service.login(info)
           .then((res) => {
-            if (res.data.data === "fail") {
+            if (res.data.data === "failed") {
               setToastOpen2(true);
               setTimeout(() => {
                 setToastOpen2(false);

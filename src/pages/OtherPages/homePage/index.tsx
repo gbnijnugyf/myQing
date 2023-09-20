@@ -1,10 +1,17 @@
 /* eslint-disable jsx-quotes */
 import { Like, PhotoOutlined, Clear } from "@taroify/icons";
-import { Divider, Swiper, Uploader, Button } from "@taroify/core";
-import { BASEURL, IPostPicTheme } from "@/globe/inter";
+import {
+  Divider,
+  Swiper,
+  Uploader,
+  Button,
+  Dialog,
+  Notify,
+} from "@taroify/core";
+import { BASEURL } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
-import { Icon, Image } from "@tarojs/components";
+import { Image } from "@tarojs/components";
 import { useLocation } from "react-router-dom";
 import Taro from "@tarojs/taro";
 
@@ -23,6 +30,7 @@ export function Home() {
   // let themePicArr;
   const location = useLocation();
   const [themePicArr, setThemePicArr] = useState<string[][]>();
+  //标记上传或删除
   const [uploadFlag, setUploadFlag] = useState<boolean>(false);
   useEffect(() => {
     Service.getPicThemeArrNum({ imageIndex: "theme" }).then((res) => {
@@ -77,8 +85,73 @@ export function Home() {
     );
   }
   function ImageTheme() {
+    interface IDeleteConfirm {
+      isOpen: boolean;
+      isDelete: boolean;
+      getImageUrl: string;
+    }
+    const [deleteConfirm, setDeleteConfirm] = useState<IDeleteConfirm>({
+      isOpen: false,
+      isDelete: false,
+      getImageUrl: "",
+    });
+
+    function imageDelete(getImageUrl: string) {
+      const regex = new RegExp("(?!id=)\\d+-\\d+(?=&)");
+      const match = getImageUrl.match(regex);
+      console.log(getImageUrl, match);
+      if (match === null) {
+        Notify.open("呜呜呜删除失败了");
+      } else {
+        console.log("theme" + match[0]);
+        Service.deletePicTheme({ picName: "theme" + match[0] }).then((res) => {
+          console.log(res);
+          if (res.data.data === true) {
+            setUploadFlag(!uploadFlag);
+          } else {
+            Notify.open("呜呜呜删除失败了");
+          }
+        });
+      }
+    }
+    function ConfirmDialog() {
+      return (
+        <>
+          <Dialog open={deleteConfirm.isOpen} onClose={() => setDeleteConfirm}>
+            <Dialog.Header>提醒</Dialog.Header>
+            <Dialog.Content>宝宝确定要删除该图片吗？</Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                onClick={() =>
+                  setDeleteConfirm({
+                    isOpen: false,
+                    isDelete: false,
+                    getImageUrl: "",
+                  })
+                }
+              >
+                取消
+              </Button>
+              <Button
+                onClick={() => {
+                  imageDelete(deleteConfirm.getImageUrl);
+                  setDeleteConfirm({
+                    isOpen: false,
+                    isDelete: false,
+                    getImageUrl: "",
+                  });
+                }}
+              >
+                确认
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </>
+      );
+    }
+
     function ImageLine(props: IImageLine) {
-      console.log(props);
+      // console.log(props);
 
       function ImageUploader() {
         const [file, setFile] = useState<Uploader.File>();
@@ -130,7 +203,15 @@ export function Home() {
               <>
                 <div key={item} className="img">
                   <div className="delete-button">
-                    <Clear onClick={() => console.log("111")} />
+                    <Clear
+                      onClick={() =>
+                        setDeleteConfirm({
+                          isOpen: true,
+                          isDelete: true,
+                          getImageUrl: item,
+                        })
+                      }
+                    />
                   </div>
 
                   <Image
@@ -165,6 +246,7 @@ export function Home() {
               theme={{ key: "theme1", value: "我们" }}
               picArr={themePicArr[0]}
             />
+            <ConfirmDialog />
             <ImageLine
               theme={{ key: "theme2", value: "美食" }}
               picArr={themePicArr[1]}
@@ -187,6 +269,7 @@ export function Home() {
 
   return (
     <div className="home-page">
+      <Notify id="notify" />
       <div className="title">
         <div>
           {/* 宋宋

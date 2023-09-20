@@ -1,10 +1,10 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import {
   BASEURL,
+  IDeletePicTheme,
   IGetPicSwiper,
   IGetPicThemeArr,
   ILogin,
-  IPostPicTheme,
 } from "./inter";
 
 // 返回响应中data的类型
@@ -56,9 +56,7 @@ export const Service = {
   login(props: ILogin) {
     return GlobalAxios<string>("post", "/login", props);
   },
-  // getPicSwiper(props:IGetPicSwiper){
-  //   return GlobalAxios<any>("post","/getPicSwiper", props)
-  // },
+
   getPicSwiper(props: IGetPicSwiper) {
     return GlobalAxios<undefined>(
       "get",
@@ -82,5 +80,11 @@ export const Service = {
   postPicTheme(props: FormData) {
     return GlobalAxios<number>("post", "/postPicTheme", props);
   },
-  // upload(){}
+  //picName为图片名，对应数据库唯一字段
+  deletePicTheme(props:IDeletePicTheme) {
+    return GlobalAxios<boolean>(
+      "delete",
+      appendParams2Path("/deletePicTheme", {...props})
+    );
+  },
 };
