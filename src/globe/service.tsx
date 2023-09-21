@@ -63,11 +63,11 @@ export const Service = {
       appendParams2Path("/getPicSwiper", { ...props })
     );
   },
-  //获取各主体图片数量，data以number数组格式返回，如[2，2，1，3]
-  getPicThemeArrNum(props: IGetPicThemeArr) {
-    return GlobalAxios<Array<number>>(
+  //获取各主题图片编号，data以number二维数组格式返回，如[[0,1]，[0,2]，[0]，[0,1,2]]
+  getPicThemeArr(props: IGetPicThemeArr) {
+    return GlobalAxios<Array<Array<number>>>(
       "get",
-      appendParams2Path("/getPicThemeArrNum", { ...props })
+      appendParams2Path("/getPicThemeArr", { ...props })
     );
   },
   getPicTheme(props: IGetPicSwiper) {
@@ -81,10 +81,10 @@ export const Service = {
     return GlobalAxios<number>("post", "/postPicTheme", props);
   },
   //picName为图片名，对应数据库唯一字段
-  deletePicTheme(props:IDeletePicTheme) {
+  deletePicTheme(props: IDeletePicTheme) {
     return GlobalAxios<boolean>(
       "delete",
-      appendParams2Path("/deletePicTheme", {...props})
+      appendParams2Path("/deletePicTheme", { ...props })
     );
   },
 };

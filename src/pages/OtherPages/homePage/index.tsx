@@ -33,20 +33,22 @@ export function Home() {
   //标记上传或删除
   const [uploadFlag, setUploadFlag] = useState<boolean>(false);
   useEffect(() => {
-    Service.getPicThemeArrNum({ imageIndex: "theme" }).then((res) => {
+    Service.getPicThemeArr({ imageIndex: "theme" }).then((res) => {
       const ArrNum = res.data.data;
       // themePicArr = Array.from({ length: ArrNum.length });
+      console.log(ArrNum);
       setThemePicArr(Array.from({ length: ArrNum.length }));
-      //例如ArrNum = [2, 2, 1, 3] 则
+      //例如ArrNum = [[0,1], [0,2], [0], [0,1,2]] 则
       const tempArr = ArrNum.map((item, index) => {
         //themePicArr[0]赋值为 长度为2的数组，每个元素包含着对应图片的url
-        return Array.from({ length: item }).map((_item, i) => {
-          //i为数组下标
+        return item.map((item2, _index) => {
+          //_index为数组下标,item2为元素
           return (
             BASEURL +
             appendParams2Path("/getPicTheme", {
-              //index+1为图片主题-i+1为该主题下的图片
-              id: `${index + 1}-${i}`,
+              //index+1为图片主题 - i为该主题下的图片
+              //TODO：i需要根据查询数据库结果得到，待修改
+              id: `${index + 1}-${item2}`,
               pass: "songzq12",
             })
           );
@@ -242,23 +244,23 @@ export function Home() {
       <>
         {themePicArr != undefined ? (
           <>
-            <ImageLine
+            {/* <ImageLine
               theme={{ key: "theme1", value: "我们" }}
               picArr={themePicArr[0]}
-            />
+            /> */}
             <ConfirmDialog />
             <ImageLine
               theme={{ key: "theme2", value: "美食" }}
               picArr={themePicArr[1]}
             />
-            <ImageLine
+            {/* <ImageLine
               theme={{ key: "theme3", value: "晴宝" }}
               picArr={themePicArr[2]}
             />
             <ImageLine
               theme={{ key: "theme4", value: "宋宋" }}
               picArr={themePicArr[3]}
-            />
+            /> */}
           </>
         ) : (
           <>暂无可展示数据</>
