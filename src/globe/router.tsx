@@ -6,6 +6,7 @@ import { LoginPage } from "@/pages/OtherPages/loginPage";
 import { MainPage } from "@/pages/OtherPages/mainPage";
 import { Home } from "@/pages/OtherPages/homePage";
 import { Person } from "@/pages/OtherPages/personPage";
+import { Todo } from "@/pages/OtherPages/todoPage";
 
 export function Routers() {
   const navigate = useNavigate();
@@ -26,16 +27,13 @@ export function Routers() {
       <Route path="main/*" element={<MainPage />}>
         <Route path="home" element={<Home />}></Route>
         <Route path="todo" element={<Todo />}></Route>
-        <Route path="message" element={<Message />}></Route>
         <Route path="my" element={<Person />}></Route>
       </Route>
     </Routes>
   );
 }
 
-function Todo() {
-  return <>待办</>;
-}
+
 function Message() {
   return <>消息</>;
 }

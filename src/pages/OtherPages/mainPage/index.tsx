@@ -1,11 +1,6 @@
 /* eslint-disable jsx-quotes */
 import { Badge, Tabbar } from "@taroify/core";
-import {
-  FriendsOutlined,
-  HomeOutlined,
-  Search,
-  SettingOutlined,
-} from "@taroify/icons";
+import { HomeOutlined, OrdersOutlined, UserOutlined, Like } from "@taroify/icons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -14,7 +9,6 @@ import "./index.scss";
 export function MainPage() {
   const [colorArr, setColorArr] = useState<Array<string>>([
     "green",
-    "black",
     "black",
     "black",
   ]);
@@ -54,25 +48,17 @@ export function MainPage() {
           style={{ color: colorArr[1] }}
           value="todo"
           badge
-          icon={<Search />}
+          icon={<OrdersOutlined />}
         >
-          标签
+          代办
         </Tabbar.TabItem>
         <Tabbar.TabItem
           style={{ color: colorArr[2] }}
-          value="message"
-          badge="5"
-          icon={<FriendsOutlined />}
-        >
-          标签
-        </Tabbar.TabItem>
-        <Tabbar.TabItem
-          style={{ color: colorArr[3] }}
           value="my"
           badge={<Badge content={100} max={99} />}
-          icon={<SettingOutlined />}
+          icon={<UserOutlined />}
         >
-          设置
+          我的
         </Tabbar.TabItem>
       </Tabbar>
     );
@@ -80,6 +66,13 @@ export function MainPage() {
 
   return (
     <>
+      {/* <div className="title">
+        <div>
+          宋宋
+          <Like color="red" />
+          晴宝
+        </div>
+      </div> */}
       <div className="outlet">
         <Outlet />
       </div>

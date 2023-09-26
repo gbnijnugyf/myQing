@@ -1,9 +1,9 @@
 /* eslint-disable jsx-quotes */
-import { Button, Cell, Input, Toast, Form } from "@taroify/core";
+import { Button, Cell, Toast, Form} from "@taroify/core";
 import Taro from "@tarojs/taro";
 import { useNavigate } from "react-router-dom";
-import { BaseEventOrig, FormProps, View } from "@tarojs/components";
-import { useState } from "react";
+import { BaseEventOrig, FormProps, View, Text, Input  } from "@tarojs/components";
+import { useRef, useState } from "react";
 import { Service } from "@/globe/service";
 import { ILogin } from "@/globe/inter";
 import "./index.scss";
@@ -15,7 +15,12 @@ export function LoginPage() {
   const [toastOpen3, setToastOpen3] = useState<boolean>(false);
 
   function LoginForm() {
+    const [userId, setUserId] = useState<string>("");
+    const [userPass, setUserPass] = useState<string>("");
+
     function clickLogin(event: BaseEventOrig<FormProps.onSubmitEventDetail>) {
+      // console.log(event);
+      // const info = event;
       const info = event.detail.value as ILogin;
       if (info.username !== "" && info.password !== "") {
         Service.login(info)
@@ -39,7 +44,8 @@ export function LoginPage() {
       }
     }
     return (
-      <Form onSubmit={(e) => clickLogin(e)}>
+      //TODO:真机调试有BUG，输入框疯狂刷新，刚输入的就没了
+      <Form onSubmit={(e) => console.log(e)} ref={useRef()}>
         <Toast open={toastOpen2}>密码或用户名错误</Toast>
         <Toast open={toastOpen3}>服务端错误，请稍后重试</Toast>
         <Cell.Group inset>
@@ -68,6 +74,35 @@ export function LoginPage() {
           </Button>
         </View>
       </Form>
+      // <View className="login-form">
+      //   <Cell className="login-cell">
+      //     <div>用户名</div>
+      //     <div>
+      //       <Input
+      //         type="text"
+      //         placeholder="请输入用户名"
+      //         onInput={(e) => setUserId(e.detail.value)}
+      //       />
+      //     </div>
+      //   </Cell>
+      //   <Toast open={toastOpen2}>密码或用户名错误</Toast>
+      //   <Toast open={toastOpen3}>服务端错误，请稍后重试</Toast>
+      //   <Cell className="login-cell">
+      //     <Text>密码</Text>
+      //     <Input
+      //       password
+      //       placeholder="请输入密码"
+      //       onInput={(e) => setUserPass(e.detail.value)}
+      //     />
+      //   </Cell>
+      //   <Button
+      //     onClick={() => {
+      //       clickLogin({ username: userId, password: userPass });
+      //     }}
+      //   >
+      //     进入空间
+      //   </Button>
+      // </View>
     );
   }
 

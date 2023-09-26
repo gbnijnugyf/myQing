@@ -272,13 +272,13 @@ export function Home() {
   return (
     <div className="home-page">
       <Notify id="notify" />
-      <div className="title">
+      {/* <div className="title">
         <div>
-          {/* 宋宋
+          宋宋
           <Like color="red" />
-          晴宝 */}
+          晴宝
         </div>
-      </div>
+      </div> */}
       <div className="pic-swiper">
         <ImageSwiper />
       </div>

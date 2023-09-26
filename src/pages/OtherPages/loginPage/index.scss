@@ -12,3 +12,12 @@
     justify-content: center;
   }
 }
+.login-form{
+  display: flex;
+  flex-direction: column;
+  .login-cell{
+    display: flex;
+    flex-direction: row;
+    // border: 1px solid red;
+  }
+}
