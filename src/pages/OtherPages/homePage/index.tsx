@@ -8,7 +8,7 @@ import {
   Dialog,
   Notify,
 } from "@taroify/core";
-import { BASEURL } from "@/globe/inter";
+import { BASEURL, IUploadPic, createFormData } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
 import { Image } from "@tarojs/components";
@@ -23,13 +23,13 @@ interface ITheme {
 }
 interface IImageLine {
   theme: ITheme;
-  picArr: string[];
+  picArr: string[] | null;
 }
 
 export function Home() {
   // let themePicArr;
   const location = useLocation();
-  const [themePicArr, setThemePicArr] = useState<string[][]>();
+  const [themePicArr, setThemePicArr] = useState<(string[] | null)[]>();
   //标记上传或删除
   const [uploadFlag, setUploadFlag] = useState<boolean>(false);
   useEffect(() => {
@@ -41,6 +41,9 @@ export function Home() {
       //例如ArrNum = [[0,1], [0,2], [0], [0,1,2]] 则
       const tempArr = ArrNum.map((item, index) => {
         //themePicArr[0]赋值为 长度为2的数组，每个元素包含着对应图片的url
+        if (item === null) {
+          return null;
+        }
         return item.map((item2, _index) => {
           //_index为数组下标,item2为元素
           return (
@@ -71,19 +74,20 @@ export function Home() {
     });
 
     return (
-      <Swiper className="image-swiper" lazyRender autoplay={4000}>
-        <Swiper.Indicator />
-        <Swiper.Item>
-          {/* TODO:图片首次加载缓慢以及再次get请求url出错 */}
-          <img rel="preload" className="image" src={swiperPicArr[0]} />
-        </Swiper.Item>
-        <Swiper.Item>
-          <img rel="preload" className="image" src={swiperPicArr[1]} />
-        </Swiper.Item>
-        <Swiper.Item>
-          <img rel="preload" className="image" src={swiperPicArr[2]} />
-        </Swiper.Item>
-      </Swiper>
+      <></>
+      // <Swiper className="image-swiper" lazyRender autoplay={4000}>
+      //   <Swiper.Indicator />
+      //   <Swiper.Item>
+      //     {/* TODO:图片首次加载缓慢以及再次get请求url出错 */}
+      //     <img rel="preload" className="image" src={swiperPicArr[0]} />
+      //   </Swiper.Item>
+      //   <Swiper.Item>
+      //     <img rel="preload" className="image" src={swiperPicArr[1]} />
+      //   </Swiper.Item>
+      //   <Swiper.Item>
+      //     <img rel="preload" className="image" src={swiperPicArr[2]} />
+      //   </Swiper.Item>
+      // </Swiper>
     );
   }
   function ImageTheme() {
@@ -154,23 +158,25 @@ export function Home() {
 
     function ImageLine(props: IImageLine) {
       // console.log(props);
-
+      // if (props === null) {
+      //   return <>暂无图片，快上传吧！</>;
+      // }
       function ImageUploader() {
         const [file, setFile] = useState<Uploader.File>();
-        const successFunc = async (res) => {
-          const formData = new FormData();
+        const successFunc = async (res: IUploadPic) => {
+          const fileArr = res.tempFilePaths;
+          let isUpLoad = false;
           for (let i = 0; i < res.tempFiles.length; i++) {
-            const item = res.tempFiles[i];
-            const response = await fetch(item.path);
-            const blob = await response.blob();
-            formData.append("image[]", blob);
+            await Service.postPicTheme({
+              imageIndex: props.theme.key,
+              file: fileArr[i],
+            }).then(() => {
+              isUpLoad = true
+            });
           }
-          formData.append("imageIndex", props.theme.key);
-          console.log(formData);
-          Service.postPicTheme(formData).then((r) => {
-            console.log(r);
-            setUploadFlag(!uploadFlag);
-          });
+          if (isUpLoad){
+            setUploadFlag(!uploadFlag)
+          }
         };
 
         function onUpload() {
@@ -201,38 +207,42 @@ export function Home() {
         <div className="dif-theme">
           <p>{props.theme.value}</p>
           <div className="img-line">
-            {props.picArr.map((item) => (
-              <>
-                <div key={item} className="img">
-                  <div className="delete-button">
-                    <Clear
-                      onClick={() =>
-                        setDeleteConfirm({
-                          isOpen: true,
-                          isDelete: true,
-                          getImageUrl: item,
-                        })
-                      }
+            {props.picArr != null ? (
+              props.picArr.map((item) => (
+                <>
+                  <div key={item} className="img">
+                    <div className="delete-button">
+                      <Clear
+                        onClick={() =>
+                          setDeleteConfirm({
+                            isOpen: true,
+                            isDelete: true,
+                            getImageUrl: item,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <Image
+                      style="border-radius: 15%;height: 100%; width:100%"
+                      src={item}
+                      onClick={() => {
+                        let current = item; //这里获取到的是一张本地的图片
+                        Taro.previewImage({
+                          current: current, //需要预览的图片链接列表
+                          urls: [current], //当前显示图片的链接
+                          enablesavephoto: true,
+                          enableShowPhotoDownload: true,
+                        });
+                      }}
+                      mode="aspectFill"
                     />
                   </div>
-
-                  <Image
-                    style="border-radius: 15%;height: 100%; width:100%"
-                    src={item}
-                    onClick={() => {
-                      let current = item; //这里获取到的是一张本地的图片
-                      Taro.previewImage({
-                        current: current, //需要预览的图片链接列表
-                        urls: [current], //当前显示图片的链接
-                        enablesavephoto: true,
-                        enableShowPhotoDownload: true,
-                      });
-                    }}
-                    mode="aspectFill"
-                  />
-                </div>
-              </>
-            ))}
+                </>
+              ))
+            ) : (
+              <>暂无图片，快上传吧！</>
+            )}
             <ImageUploader />
           </div>
           <Divider className="divider2" style={{ color: "black" }} dashed />

@@ -12,15 +12,35 @@ export interface IGetPicThemeArr {
   imageIndex: string;
 }
 
-export interface IPostPicTheme {
-  imageIndex: string;
-  files: FormData[];
+export interface IDeletePicTheme {
+  picName: string;
 }
 
-export interface IDeletePicTheme{
-  picName: string
+export interface IUploadPic {
+  tempFiles: string | any[];
+  tempFilePaths: string[];
+}
+export interface IPostPicTheme {
+  imageIndex: string;
+  file: string;
 }
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";
-// export const BASEURL = "http://localhost:8080";
+// export const BASEURL = "http://192.168.136.2:8080";
 export const BASEURL = "https://zqsongsong.top:8000";
+
+//解决weapp不接受FormData问题，手动拼接转换https://segmentfault.com/a/1190000023360087?utm_source=tag-newest
+export function createFormData(params = {}, boundary = "") {
+  let result = "";
+  for (let i in params) {
+    result += `\r\n--${boundary}`;
+    result += `\r\nContent-Disposition: form-data; name="${i}"`;
+    result += "\r\n";
+    result += `\r\n${params[i]}`;
+  }
+  // 如果obj不为空，则最后一行加上boundary
+  if (result) {
+    result += `\r\n--${boundary}`;
+  }
+  return result;
+}

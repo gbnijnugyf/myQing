@@ -1,10 +1,15 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import Taro from "@tarojs/taro";
+
 import {
   BASEURL,
   IDeletePicTheme,
   IGetPicSwiper,
   IGetPicThemeArr,
   ILogin,
+  IPostPicTheme,
+  IUploadPic,
+  createFormData,
 } from "./inter";
 
 // 返回响应中data的类型
@@ -27,7 +32,10 @@ async function GlobalAxios<T = any, D = any>(
 ): Promise<AxiosResponse<IGlobalResponse<T>, any>> {
   let config: AxiosRequestConfig<D> = {};
   config.baseURL = BASEURL;
-
+  // config.headers = {
+  //   'Accept': "application/json",
+  //   "Content-Type": `multipart/form-data; boundary=${boundary}`,
+  // };
   const parsedURL = new URL(BASEURL + url);
   //   const parsedURL = parse(url);
 
@@ -77,8 +85,16 @@ export const Service = {
     );
   },
   //上传图片，返回的number为成功上传图片数量
-  postPicTheme(props: FormData) {
-    return GlobalAxios<number>("post", "/postPicTheme", props);
+  //weapp不支持formdata上传文件，调用API发送请求
+  postPicTheme(props: IPostPicTheme) {
+    return Taro.uploadFile({
+      url: BASEURL + "/postPicTheme",
+      filePath: props.file,
+      name: "file",
+      formData: {
+        imageIndex: props.imageIndex,
+      },
+    });
   },
   //picName为图片名，对应数据库唯一字段
   deletePicTheme(props: IDeletePicTheme) {
