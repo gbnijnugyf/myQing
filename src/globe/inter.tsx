@@ -24,12 +24,20 @@ export interface IPostPicTheme {
   imageIndex: string;
   file: string;
 }
+export interface ITodoItem {
+  title: string;
+  detail: string;
+  timeStart: string;
+  timeEnd: string;
+  isDel: boolean;
+}
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";
 // export const BASEURL = "http://192.168.136.2:8080";
-export const BASEURL = "https://zqsongsong.top:8000";
+export const BASEURL = "http://localhost:8080";
+// export const BASEURL = "https://zqsongsong.top:8000";
 
-//解决weapp不接受FormData问题，手动拼接转换https://segmentfault.com/a/1190000023360087?utm_source=tag-newest
+// 解决weapp不接受FormData问题，手动拼接转换https://segmentfault.com/a/1190000023360087?utm_source=tag-newest
 export function createFormData(params = {}, boundary = "") {
   let result = "";
   for (let i in params) {

@@ -16,11 +16,13 @@ import {
 import { usePageScroll } from "@tarojs/taro";
 import { useState } from "react";
 import { Add, ArrowRight } from "@taroify/icons";
+import { ITodoItem } from "@/globe/inter";
+
 import "./index.scss";
 
 interface ITodoList {
-  list: string[];
-  setList: React.Dispatch<React.SetStateAction<string[]>>;
+  list: ITodoItem[];
+  setList: React.Dispatch<React.SetStateAction<ITodoItem[]>>;
 }
 function formatFullDate(dateRange?: Date[]) {
   if (dateRange?.length) {
@@ -59,11 +61,7 @@ function SingleCalendar() {
             setFormatValue(formatFullDate(newValue));
             setOpen(false);
           }}
-        >
-          {/* <Calendar.Footer>
-            <Calendar.Button type="confirm">确定</Calendar.Button>
-          </Calendar.Footer> */}
-        </Calendar>
+        />
       </Popup>
     </>
   );
@@ -72,20 +70,80 @@ function SingleCalendar() {
 export function Todo() {
   const [tabValue, setTabValue] = useState<string>("qing");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [listQing, setListQing] = useState<string[]>([
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
+  const [listQing, setListQing] = useState<ITodoItem[]>([
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+    {
+      title: "标题",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
   ]);
-  const [listSong, setListSong] = useState<string[]>(["1", "2", "3"]);
+  const [listSong, setListSong] = useState<ITodoItem[]>([
+    {
+      title: "标题1",
+      detail: "详细内容",
+      timeStart: "2023/10/5",
+      timeEnd: "2023/10/7",
+      isDel: false,
+    },
+  ]);
 
   function AddTodo() {
     return (
@@ -106,7 +164,7 @@ export function Todo() {
             <SingleCalendar />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onClick={() => setDialogOpen(false)}>确认</Button>
+            <Button onClick={() => setDialogOpen(false)}>确认添加</Button>
           </Dialog.Actions>
         </Dialog>
       </>
@@ -125,11 +183,18 @@ export function Todo() {
       <>
         <List>
           {props.list.map((item) => (
-            <SwipeCell key={item}>
-              <Cell className="cell" key={item}>
-                {item}
+            <SwipeCell key={item.title}>
+              <Cell className="cell" key={item.title}>
+                <div className="cell-context">
+                  <h2>{item.title}</h2>
+                  <div>ddl:{item.timeEnd}</div>
+                </div>
               </Cell>
+
               <SwipeCell.Actions side="right">
+                <Button variant="contained" shape="square" color="info">
+                  已完成
+                </Button>
                 <Button variant="contained" shape="square" color="danger">
                   删除
                 </Button>

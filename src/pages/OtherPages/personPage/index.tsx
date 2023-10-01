@@ -8,7 +8,7 @@ export function Person() {
     const [value, setValue] = useState([0]);
     return (
       <Collapse value={value} onChange={setValue}>
-        <Collapse.Item title="标题1">
+        <Collapse.Item title="大事记">
           代码是写出来给人看的，附带能在机器上运行
         </Collapse.Item>
         <Collapse.Item title="标题2">

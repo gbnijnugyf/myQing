@@ -11,13 +11,22 @@
     margin-top: 10%;
     width: 80vw;
     border: 1px solid red;
+    .cell-context {
+      // border: 1px solid black;
+      height: fit-content;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
   .add-button {
     width: fit-content;
+    height: fit-content;
     padding: 0%;
     z-index: 2;
     position: absolute;
     right: 5%;
-    top:80%
+    top: 80%;
   }
 }

@@ -8,7 +8,7 @@ import {
   Dialog,
   Notify,
 } from "@taroify/core";
-import { BASEURL, IUploadPic, createFormData } from "@/globe/inter";
+import { BASEURL, IUploadPic } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useState } from "react";
 import { Image } from "@tarojs/components";
