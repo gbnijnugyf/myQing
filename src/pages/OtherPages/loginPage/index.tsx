@@ -159,7 +159,7 @@ export function LoginPage() {
           该程序只为一人编写，若您无意进入敬请离开
         </Toast>
         <h1 style={{ color: "rgb(240, 120, 186)", marginBottom: "5vh" }}>
-          my晴宝
+          {/* my晴宝 */}
         </h1>
         <LoginForm />
         {/* <BasicForm /> */}

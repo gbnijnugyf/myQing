@@ -17,6 +17,7 @@ export function Routers() {
     if (token !== "" && !location.pathname.startsWith("/login")) {
       navigate("/main/home");
     } else if (token === "" && !location.pathname.startsWith("/login")) {
+      // navigate("/main/home");
       navigate("/login");
     }
   }, []);

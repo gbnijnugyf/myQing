@@ -6,8 +6,10 @@ import {
   IDeletePicTheme,
   IGetPicSwiper,
   IGetPicThemeArr,
+  IGetTodoList,
   ILogin,
   IPostPicTheme,
+  ITodoItem,
   IUploadPic,
   createFormData,
 } from "./inter";
@@ -82,6 +84,12 @@ export const Service = {
     return GlobalAxios<undefined>(
       "get",
       appendParams2Path("/getPicTheme", { ...props })
+    );
+  },
+  getTodoList(props: IGetTodoList) {
+    return GlobalAxios<ITodoItem[]>(
+      "get",
+      appendParams2Path("/getTodolist", { ...props })
     );
   },
   //上传图片，返回的number为成功上传图片数量

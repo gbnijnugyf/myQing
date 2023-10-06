@@ -10,7 +10,8 @@
   .cell {
     margin-top: 10%;
     width: 80vw;
-    border: 1px solid red;
+    border: 1px solid green;
+
     .cell-context {
       // border: 1px solid black;
       height: fit-content;
@@ -20,6 +21,11 @@
       align-items: center;
     }
   }
+  #done {
+    background-color: rgb(215, 215, 215);
+  }
+  #todo {
+  }
   .add-button {
     width: fit-content;
     height: fit-content;
@@ -28,5 +34,19 @@
     position: absolute;
     right: 5%;
     top: 80%;
+  }
+
+  .detail-context {
+    display: flex;
+    flex-direction: column;
+    #detail-time {
+      margin-top: 5%;
+    }
+    #detail-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-bottom: 0%;
+    }
   }
 }
