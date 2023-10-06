@@ -92,6 +92,9 @@ export const Service = {
       appendParams2Path("/getTodolist", { ...props })
     );
   },
+  addTodoItem(props: ITodoItem) {
+    return GlobalAxios<number>("post", "/postTodoItem", props);
+  },
   //上传图片，返回的number为成功上传图片数量
   //weapp不支持formdata上传文件，调用API发送请求
   postPicTheme(props: IPostPicTheme) {

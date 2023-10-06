@@ -8,6 +8,11 @@ export interface IGetPicSwiper {
   pass: string;
 }
 
+export interface IHookInterface<T> {
+  value: T;
+  setValue: React.Dispatch<React.SetStateAction<T>>;
+}
+
 export interface IGetPicThemeArr {
   imageIndex: string;
 }
@@ -15,8 +20,8 @@ export interface IGetPicThemeArr {
 export interface IDeletePicTheme {
   picName: string;
 }
-export interface IGetTodoList{
-  tab:string;
+export interface IGetTodoList {
+  tab: string;
 }
 // export interface IGetTodoListRes{
 //   tabArr:string[];
@@ -31,13 +36,14 @@ export interface IPostPicTheme {
   imageIndex: string;
   file: string;
 }
+export type tabType = "qing" | "song" | "";
 export interface ITodoItem {
   title: string;
   detail: string;
   timeStart: string;
   timeEnd: string;
   isDone: 0 | -1 | 1;
-  whos: "qing" | "song" | "";
+  whos: tabType;
 }
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";

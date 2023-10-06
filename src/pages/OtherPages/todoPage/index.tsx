@@ -13,6 +13,7 @@ import {
   SwipeCell,
   Tabs,
   Textarea,
+  Toast,
 } from "@taroify/core";
 import { usePageScroll } from "@tarojs/taro";
 import { useEffect, useState } from "react";
@@ -21,52 +22,11 @@ import { ITodoItem } from "@/globe/inter";
 import { Service } from "@/globe/service";
 
 import "./index.scss";
+import { AddTodo } from "./addTodo";
 
 interface ITodoList {
   list: ITodoItem[];
   setList: React.Dispatch<React.SetStateAction<ITodoItem[]>>;
-}
-function formatFullDate(dateRange?: Date[]) {
-  if (dateRange?.length) {
-    const [start, end] = dateRange;
-    return `${start.toLocaleDateString()}-${end.toLocaleDateString()}`;
-  }
-}
-
-function SingleCalendar() {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<Date>();
-  const [formatValue, setFormatValue] = useState<string>();
-
-  return (
-    <>
-      <Cell
-        title="选择时间区间"
-        clickable
-        rightIcon={<ArrowRight />}
-        onClick={() => setOpen(true)}
-      >
-        {formatValue}
-      </Cell>
-      <Popup
-        style={{}}
-        open={open}
-        rounded
-        placement="bottom"
-        onClose={setOpen}
-      >
-        <Calendar
-          type="range"
-          value={value}
-          onChange={setValue}
-          onConfirm={(newValue) => {
-            setFormatValue(formatFullDate(newValue));
-            setOpen(false);
-          }}
-        />
-      </Popup>
-    </>
-  );
 }
 
 export function Todo() {
@@ -80,7 +40,7 @@ export function Todo() {
       whos: "qing",
     },
   ];
-  const [tabValue, setTabValue] = useState<string>("qing");
+  const [tabValue, setTabValue] = useState<"qing" | "song" | "">("qing");
   const [addTodoOpen, setAddTodoOpen] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(false);
   const [listQing, setListQing] = useState<ITodoItem[]>(initList);
@@ -141,33 +101,6 @@ export function Todo() {
       setListSong(listNotDone);
     });
   }, []);
-
-  function AddTodo() {
-    return (
-      <>
-        <Dialog className="" open={addTodoOpen} onClose={setAddTodoOpen}>
-          <Dialog.Content>
-            <h3>添加待办</h3>
-            <Field label="标题">
-              <Input
-                placeholder="请输入文本"
-                // value={" "}
-                maxlength={8}
-                onChange={(e) => console.log(e.detail.value)}
-              />
-            </Field>
-            <Field align="start" label="详情">
-              <Textarea limit={100} placeholder="请输入详情" />
-            </Field>
-            <SingleCalendar />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onClick={() => setAddTodoOpen(false)}>确认添加</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </>
-    );
-  }
 
   function TodoList(props: ITodoList) {
     interface IDialogDetail {
@@ -280,6 +213,7 @@ export function Todo() {
                     let tempArr = props.list;
                     tempArr[index].isDone = -1;
                     props.setList(tempArr);
+                    setDisplay(!display);
                   }}
                 >
                   删除
@@ -314,7 +248,10 @@ export function Todo() {
   return (
     <div className="todo-page">
       <BasicTabs />
-      <AddTodo />
+      <AddTodo
+        tabValue={tabValue}
+        hook={{ value: addTodoOpen, setValue: setAddTodoOpen }}
+      />
 
       <Button
         onClick={() => setAddTodoOpen(true)}
