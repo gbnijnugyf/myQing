@@ -38,6 +38,7 @@ export function Todo() {
       timeEnd: "*",
       isDone: 1,
       whos: "qing",
+      createTime: Date().toString(),
     },
   ];
   const [tabValue, setTabValue] = useState<"qing" | "song" | "">("qing");
@@ -90,6 +91,7 @@ export function Todo() {
       const list = res.data.data;
       let listNotDone = list.filter(checkNotDone).sort(sortByDDL);
       let listDone = list.filter(checkDone).sort(sortByDDL);
+      console.log(list);
       setListQingDone(listDone);
       setListQing(listNotDone);
     });
@@ -97,10 +99,11 @@ export function Todo() {
       const list_ = res.data.data;
       let listNotDone = list_.filter(checkNotDone).sort(sortByDDL);
       let listDone = list_.filter(checkDone).sort(sortByDDL);
+      console.log(list_);
       setListSongDone(listDone);
       setListSong(listNotDone);
     });
-  }, []);
+  }, [display]);
 
   function TodoList(props: ITodoList) {
     interface IDialogDetail {
@@ -197,9 +200,20 @@ export function Todo() {
                   color="info"
                   onClick={() => {
                     let tempArr = props.list;
-                    tempArr[index].isDone = 1;
-                    props.setList(tempArr);
-                    setDisplay(!display);
+                    // tempArr[index].isDone = 1;
+                    //TODO:更新待办必须使用creatTime唯一标识！
+                    console.log(tempArr, tempArr[index].createTime);
+                    Service.updateTodoItem({
+                      title: tempArr[index].title,
+                      timeStart: tempArr[index].timeStart,
+                      whos: tempArr[index].whos,
+                      createTime: tempArr[index].createTime,
+                    }).then((res) => {
+                      if (res.data.data === true) {
+                        setDisplay(!display);
+                      }
+                    });
+                    // props.setList(tempArr);
                   }}
                   disabled={item.isDone === 1 ? true : false}
                 >
@@ -211,9 +225,19 @@ export function Todo() {
                   color="danger"
                   onClick={() => {
                     let tempArr = props.list;
-                    tempArr[index].isDone = -1;
-                    props.setList(tempArr);
-                    setDisplay(!display);
+                    // tempArr[index].isDone = 1;
+                    //TODO:更新待办必须使用creatTime唯一标识！
+                    console.log(tempArr, tempArr[index].createTime);
+                    Service.deleteTodoItem({
+                      title: tempArr[index].title,
+                      timeStart: tempArr[index].timeStart,
+                      whos: tempArr[index].whos,
+                      createTime: tempArr[index].createTime,
+                    }).then((res) => {
+                      if (res.data.data === true) {
+                        setDisplay(!display);
+                      }
+                    });
                   }}
                 >
                   删除
@@ -250,7 +274,8 @@ export function Todo() {
       <BasicTabs />
       <AddTodo
         tabValue={tabValue}
-        hook={{ value: addTodoOpen, setValue: setAddTodoOpen }}
+        hook_addDialog={{ value: addTodoOpen, setValue: setAddTodoOpen }}
+        hook_display={{ value: display, setValue: setDisplay }}
       />
 
       <Button

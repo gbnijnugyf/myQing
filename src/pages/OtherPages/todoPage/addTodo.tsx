@@ -25,7 +25,8 @@ import "./index.scss";
 
 interface IAddTodo {
   tabValue: tabType;
-  hook: IHookInterface<boolean>;
+  hook_addDialog: IHookInterface<boolean>;
+  hook_display:IHookInterface<boolean>;
 }
 
 function formatFullDate(dateRange?: Date[]) {
@@ -55,7 +56,8 @@ export function AddTodo(prop: IAddTodo) {
         if (res.data.data !== 1) {
           setToast(true);
         } else {
-          prop.hook.setValue(false);
+          prop.hook_addDialog.setValue(false);
+          prop.hook_display.setValue(!prop.hook_display.value)
         }
       })
       .catch(() => {
@@ -64,7 +66,7 @@ export function AddTodo(prop: IAddTodo) {
   }
   return (
     <>
-      <Dialog className="" open={prop.hook.value} onClose={prop.hook.setValue}>
+      <Dialog className="" open={prop.hook_addDialog.value} onClose={prop.hook_addDialog.setValue}>
         <Dialog.Content>
           <Toast open={toast} onClose={setToast} type="fail">
             添加失败，请完善信息或稍后重试
@@ -94,12 +96,7 @@ export function AddTodo(prop: IAddTodo) {
           >
             {formatValue}
           </Cell>
-          <Popup
-            open={open}
-            rounded
-            placement="bottom"
-            onClose={setOpen}
-          >
+          <Popup open={open} rounded placement="bottom" onClose={setOpen}>
             <Popup.Close />
             <Calendar
               type="range"
@@ -130,6 +127,7 @@ export function AddTodo(prop: IAddTodo) {
                 timeEnd: time[1],
                 isDone: 0,
                 whos: prop.tabValue,
+                createTime: "",
               })
             }
           >

@@ -23,11 +23,6 @@ export interface IDeletePicTheme {
 export interface IGetTodoList {
   tab: string;
 }
-// export interface IGetTodoListRes{
-//   tabArr:string[];
-//   allListArr:ITodoItem[][];
-// }
-
 export interface IUploadPic {
   tempFiles: string | any[];
   tempFilePaths: string[];
@@ -44,6 +39,13 @@ export interface ITodoItem {
   timeEnd: string;
   isDone: 0 | -1 | 1;
   whos: tabType;
+  createTime: string; //不向后端上传，只从后端接收，且不展示
+}
+export interface IUpdateItem {
+  title: string;
+  timeStart: string;
+  whos: string;
+  createTime: string;
 }
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";

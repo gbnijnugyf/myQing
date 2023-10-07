@@ -10,6 +10,7 @@ import {
   ILogin,
   IPostPicTheme,
   ITodoItem,
+  IUpdateItem,
   IUploadPic,
   createFormData,
 } from "./inter";
@@ -57,7 +58,8 @@ async function GlobalAxios<T = any, D = any>(
   if (response.statusText === "OK") {
     return response;
   } else {
-    alert(response.data.msg);
+    //TODO:全局报错，小程序不存在alert，待修改
+    console.log(response.data.msg);
   }
   return response;
 }
@@ -94,6 +96,20 @@ export const Service = {
   },
   addTodoItem(props: ITodoItem) {
     return GlobalAxios<number>("post", "/postTodoItem", props);
+  },
+  //完成一项待办
+  updateTodoItem(props: IUpdateItem) {
+    return GlobalAxios<boolean>(
+      "get",
+      appendParams2Path("/updateTodoItem", { ...props })
+    );
+  },
+  //删除一项待办
+  deleteTodoItem(props: IUpdateItem) {
+    return GlobalAxios<boolean>(
+      "delete",
+      appendParams2Path("/deleteTodoItem", { ...props })
+    );
   },
   //上传图片，返回的number为成功上传图片数量
   //weapp不支持formdata上传文件，调用API发送请求
