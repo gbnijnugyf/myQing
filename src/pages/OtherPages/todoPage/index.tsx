@@ -157,7 +157,6 @@ export function Todo() {
         </Dialog>
         <List>
           {props.list.map((item, index) => (
-            //TODO:将删除的item不加入数组，或在后端返回item时不将已删除的返回
             <SwipeCell key={item.title}>
               <Cell
                 className="cell"

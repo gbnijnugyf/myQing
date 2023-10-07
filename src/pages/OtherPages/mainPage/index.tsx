@@ -25,9 +25,6 @@ export function MainPage() {
         case "todo":
           temp[1] = "green";
           break;
-        case "message":
-          temp[2] = "green";
-          break;
         case "my":
           temp[3] = "green";
           break;

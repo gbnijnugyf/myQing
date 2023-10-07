@@ -78,7 +78,6 @@ export function Home() {
       // <Swiper className="image-swiper" lazyRender autoplay={4000}>
       //   <Swiper.Indicator />
       //   <Swiper.Item>
-      //     {/* TODO:图片首次加载缓慢以及再次get请求url出错 */}
       //     <img rel="preload" className="image" src={swiperPicArr[0]} />
       //   </Swiper.Item>
       //   <Swiper.Item>
