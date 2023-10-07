@@ -4,20 +4,14 @@ import {
   Calendar,
   Cell,
   Dialog,
-  Divider,
   Field,
   Input,
-  List,
-  Loading,
   Popup,
-  SwipeCell,
-  Tabs,
   Textarea,
   Toast,
 } from "@taroify/core";
-import { usePageScroll } from "@tarojs/taro";
-import { useEffect, useState } from "react";
-import { Add, ArrowRight } from "@taroify/icons";
+import { useState } from "react";
+import { ArrowRight } from "@taroify/icons";
 import { IHookInterface, ITodoItem, tabType } from "@/globe/inter";
 import { Service } from "@/globe/service";
 

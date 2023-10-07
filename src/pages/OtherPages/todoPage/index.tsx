@@ -1,23 +1,15 @@
 /* eslint-disable jsx-quotes */
 import {
   Button,
-  Calendar,
   Cell,
   Dialog,
   Divider,
-  Field,
-  Input,
   List,
-  Loading,
-  Popup,
   SwipeCell,
   Tabs,
-  Textarea,
-  Toast,
 } from "@taroify/core";
-import { usePageScroll } from "@tarojs/taro";
 import { useEffect, useState } from "react";
-import { Add, ArrowRight } from "@taroify/icons";
+import { Add } from "@taroify/icons";
 import { ITodoItem } from "@/globe/inter";
 import { Service } from "@/globe/service";
 
@@ -91,7 +83,6 @@ export function Todo() {
       const list = res.data.data;
       let listNotDone = list.filter(checkNotDone).sort(sortByDDL);
       let listDone = list.filter(checkDone).sort(sortByDDL);
-      console.log(list);
       setListQingDone(listDone);
       setListQing(listNotDone);
     });
@@ -99,7 +90,6 @@ export function Todo() {
       const list_ = res.data.data;
       let listNotDone = list_.filter(checkNotDone).sort(sortByDDL);
       let listDone = list_.filter(checkDone).sort(sortByDDL);
-      console.log(list_);
       setListSongDone(listDone);
       setListSong(listNotDone);
     });
@@ -110,17 +100,11 @@ export function Todo() {
       whos: "qing" | "song" | "";
       index: number;
     }
-    // const [hasMore, setHasMore] = useState(true);
-
-    // const [loading, setLoading] = useState(false);
     const [dialogDetail, setDialogDetail] = useState<IDialogDetail>({
       whos: "",
       index: -1,
     });
     const [detailOpen, setDetailOpen] = useState<boolean>(false);
-    const [scrollTop, setScrollTop] = useState(0);
-    usePageScroll(({ scrollTop: aScrollTop }) => setScrollTop(aScrollTop));
-
     return (
       <>
         <Dialog open={detailOpen} onClose={setDetailOpen}>
@@ -201,7 +185,7 @@ export function Todo() {
                   onClick={() => {
                     let tempArr = props.list;
                     // tempArr[index].isDone = 1;
-                    //TODO:更新待办必须使用creatTime唯一标识！
+                    //更新待办必须使用createTime唯一标识！
                     console.log(tempArr, tempArr[index].createTime);
                     Service.updateTodoItem({
                       title: tempArr[index].title,
@@ -213,7 +197,6 @@ export function Todo() {
                         setDisplay(!display);
                       }
                     });
-                    // props.setList(tempArr);
                   }}
                   disabled={item.isDone === 1 ? true : false}
                 >
@@ -226,7 +209,7 @@ export function Todo() {
                   onClick={() => {
                     let tempArr = props.list;
                     // tempArr[index].isDone = 1;
-                    //TODO:更新待办必须使用creatTime唯一标识！
+                    //更新待办必须使用createTime唯一标识！
                     console.log(tempArr, tempArr[index].createTime);
                     Service.deleteTodoItem({
                       title: tempArr[index].title,
