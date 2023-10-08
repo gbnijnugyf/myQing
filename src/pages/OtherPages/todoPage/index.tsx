@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Add } from "@taroify/icons";
 import { ITodoItem } from "@/globe/inter";
 import { Service } from "@/globe/service";
+import Taro from "@tarojs/taro";
 
 import "./index.scss";
 import { AddTodo } from "./addTodo";
@@ -260,6 +261,20 @@ export function Todo() {
         hook_display={{ value: display, setValue: setDisplay }}
       />
 
+      <Button
+        onClick={() => {
+          Taro.requestSubscribeMessage({
+            tmplIds: ["E1LpkkP8-8XoNI9dRXRrS-hbnhpNmYntkJbX_dhdKdM"],
+            success: function (res) {
+              console.log(res);
+            },
+            fail: function (err) {
+              console.log(err);
+            },
+          });
+        }}
+        shape="round"
+      >订阅</Button>
       <Button
         onClick={() => setAddTodoOpen(true)}
         className="add-button"

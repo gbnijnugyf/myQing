@@ -1,8 +1,14 @@
 /* eslint-disable jsx-quotes */
 import { Badge, Tabbar } from "@taroify/core";
-import { HomeOutlined, OrdersOutlined, UserOutlined, Like } from "@taroify/icons";
+import {
+  HomeOutlined,
+  OrdersOutlined,
+  UserOutlined,
+  Like,
+} from "@taroify/icons";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Service } from "@/globe/service";
 
 import "./index.scss";
 
@@ -13,6 +19,10 @@ export function MainPage() {
     "black",
   ]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    Service.sendCodeToBack()
+  });
 
   function BadgeTabbar() {
     function selectTabs(value: string) {

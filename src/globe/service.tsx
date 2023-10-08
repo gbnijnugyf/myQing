@@ -68,7 +68,15 @@ export const Service = {
   login(props: ILogin) {
     return GlobalAxios<string>("post", "/login", props);
   },
-
+  //在前端通过Taro.login获得code发送到后端获取敏感信息
+  sendCodeToBack() {
+    Taro.login({
+      success: function (res) {
+        console.log(res, "res");
+        GlobalAxios("post", "/sendCode", { code: res.code });
+      },
+    });
+  },
   getPicSwiper(props: IGetPicSwiper) {
     return GlobalAxios<undefined>(
       "get",

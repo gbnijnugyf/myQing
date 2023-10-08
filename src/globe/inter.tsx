@@ -50,9 +50,14 @@ export interface IUpdateItem {
 
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";
-// export const BASEURL = "http://192.168.136.2:8080";
+// export const BASEURL = "http://10.83.165.147:8080";
 export const BASEURL = "http://localhost:8080";
 // export const BASEURL = "https://zqsongsong.top:8000";
+
+// export const msgToken
+// export const msgEncodingAESKey
+
+
 
 // 解决weapp不接受FormData问题，手动拼接转换https://segmentfault.com/a/1190000023360087?utm_source=tag-newest
 export function createFormData(params = {}, boundary = "") {
