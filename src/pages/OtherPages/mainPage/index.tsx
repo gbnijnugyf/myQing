@@ -20,9 +20,9 @@ export function MainPage() {
   ]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    Service.sendCodeToBack()
-  });
+  // useEffect(() => {
+  //   Service.sendCodeToBack()
+  // });
 
   function BadgeTabbar() {
     function selectTabs(value: string) {

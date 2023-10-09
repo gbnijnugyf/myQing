@@ -22,6 +22,10 @@ export function Routers() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(Taro.getCurrentPages());
+  }, [location]);
+
   return (
     <Routes>
       <Route path="login" element={<LoginPage />} />

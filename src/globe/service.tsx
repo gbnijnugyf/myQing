@@ -9,6 +9,8 @@ import {
   IGetTodoList,
   ILogin,
   IPostPicTheme,
+  ISendCodeToBack,
+  ISendSubscribeToBack,
   ITodoItem,
   IUpdateItem,
   IUploadPic,
@@ -69,11 +71,20 @@ export const Service = {
     return GlobalAxios<string>("post", "/login", props);
   },
   //在前端通过Taro.login获得code发送到后端获取敏感信息
-  sendCodeToBack() {
+  sendSubscribeToBack(props: ISendSubscribeToBack) {
     Taro.login({
       success: function (res) {
         console.log(res, "res");
-        GlobalAxios("post", "/sendCode", { code: res.code });
+        let tempProp: ISendCodeToBack = {
+          remindTime: props.remindTime,
+          code: res.code,
+          todoInfo: {
+            title: props.todoInfo.title,
+            whos: props.todoInfo.whos,
+            createTime: props.todoInfo.createTime
+          }
+        };
+        GlobalAxios("post", "/sendCode", tempProp);
       },
     });
   },

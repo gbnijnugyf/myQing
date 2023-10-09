@@ -2,6 +2,7 @@
 import {
   Button,
   Cell,
+  DatetimePicker,
   Dialog,
   Divider,
   List,
@@ -10,7 +11,7 @@ import {
 } from "@taroify/core";
 import { useEffect, useState } from "react";
 import { Add } from "@taroify/icons";
-import { ITodoItem } from "@/globe/inter";
+import { ISendSubscribeToBack, ITodoItem, TEMPLIdS } from "@/globe/inter";
 import { Service } from "@/globe/service";
 import Taro from "@tarojs/taro";
 
@@ -106,6 +107,155 @@ export function Todo() {
       index: -1,
     });
     const [detailOpen, setDetailOpen] = useState<boolean>(false);
+    const [dialogSubscribe, setDialogSubscribe] = useState<boolean>(false);
+    const [subscribeIndex, setSubscribeIndex] = useState<number>(-1);
+
+    function DateTimePicker() {
+      const [minDate] = useState(new Date());
+      const [maxDate] = useState(new Date(2025, 10, 1, 20, 59, 59));
+      const [defaultValue] = useState(new Date());
+      const [selectedTime,setSelectedTime] = useState<Date>(new Date())
+
+      function haveSubscribe(remindT) {
+        let tempArr = props.list;
+        let prop: ISendSubscribeToBack = {
+          remindTime: remindT.toString(),
+          todoInfo: {
+            title: tempArr[subscribeIndex].title,
+            whos: tempArr[subscribeIndex].whos,
+            createTime: tempArr[subscribeIndex].createTime,
+          },
+        };
+        subscribeMessage(prop);
+      }
+      function subscribeMessage(prop: ISendSubscribeToBack) {
+        Taro.requestSubscribeMessage({
+          tmplIds: [TEMPLIdS],
+          success: function (res) {
+            console.log(res);
+            //TODO:该请求需要增加字段以区分对应待办
+            Service.sendSubscribeToBack({
+              todoInfo: {
+                title: prop.todoInfo.title,
+                whos: prop.todoInfo.whos,
+                createTime: prop.todoInfo.createTime,
+              },
+              remindTime: prop.remindTime,
+            });
+            setDialogSubscribe(false);
+          },
+          fail: function (err) {
+            console.log(err);
+          },
+        });
+      }
+
+      const handleTimeChange = (date:Date) => {
+        // 更新组件绑定的日期时间值
+        // 不知道为什么直接赋值给onChange会不停触发重新渲染，而中间加一个函数却不会
+        setSelectedTime(date);
+        console.log(selectedTime)
+      };
+      return (
+        <DatetimePicker
+          type="date-minute"
+          min={minDate}
+          max={maxDate}
+          defaultValue={defaultValue}
+          formatter={(type, val) => {
+            switch (type) {
+              case "year":
+                return val + "年";
+              case "month":
+                return val + "月";
+              case "day":
+                return val + "日";
+              case "hour":
+                return val + "时";
+              default:
+                return val + "分";
+            }
+          }}
+          onChange={(date)=>handleTimeChange(date)}
+        >
+          <DatetimePicker.Toolbar>
+            {/* <DatetimePicker.Button >确认添加待办提醒</DatetimePicker.Button> */}
+          </DatetimePicker.Toolbar>
+          <Button
+            color="info"
+            shape="round"
+            onClick={() => {
+              haveSubscribe(selectedTime.getTime());
+            }}
+          >
+            确认添加待办提醒
+          </Button>
+        </DatetimePicker>
+      );
+    }
+    function haveDone(index: number) {
+      let tempArr = props.list;
+      // tempArr[index].isDone = 1;
+      //更新待办必须使用createTime唯一标识！
+      // console.log(tempArr, tempArr[index].createTime);
+      Service.updateTodoItem({
+        title: tempArr[index].title,
+        whos: tempArr[index].whos,
+        createTime: tempArr[index].createTime,
+      }).then((res) => {
+        if (res.data.data === true) {
+          setDisplay(!display);
+        }
+      });
+    }
+    function haveDelete(index: number) {
+      let tempArr = props.list;
+      // tempArr[index].isDone = 1;
+      //更新待办必须使用createTime唯一标识！
+      console.log(tempArr, tempArr[index].createTime);
+      Service.deleteTodoItem({
+        title: tempArr[index].title,
+        whos: tempArr[index].whos,
+        createTime: tempArr[index].createTime,
+      }).then((res) => {
+        if (res.data.data === true) {
+          setDisplay(!display);
+        }
+      });
+    }
+    // function haveSubscribe(index: number) {
+    //   // setDialogSubscribe(true);
+    //   let tempArr = props.list;
+    //   let prop: ISendSubscribeToBack = {
+    //     title: tempArr[index].title,
+    //     createTime: tempArr[index].createTime,
+    //     remindTime: remindT.toString(),
+    //   };
+    //   if (subscribeSubmit === true) {
+    //     console.log("run");
+    //     setSubscribeSubmit(false);
+    //   }
+    //   // subscribeMessage(prop);
+    // }
+    // function subscribeMessage(prop: ISendSubscribeToBack) {
+    //   Taro.requestSubscribeMessage({
+    //     tmplIds: ["E1LpkkP8-8XoNI9dRXRrSw10GxgYuyECbAesyP9VVL0"],
+    //     success: function (res) {
+    //       console.log(res);
+    //       //TODO:该请求需要增加字段以区分对应待办
+    //       Service.sendSubscribeToBack({
+    //         title: prop.title,
+    //         createTime: prop.createTime,
+    //         remindTime: prop.remindTime,
+    //       });
+    //       setDialogSubscribe(false);
+    //     },
+    //     fail: function (err) {
+    //       console.log(err);
+    //     },
+    //   });
+    // }
+
     return (
       <>
         <Dialog open={detailOpen} onClose={setDetailOpen}>
@@ -156,77 +306,72 @@ export function Todo() {
             </div>
           </Dialog.Content>
         </Dialog>
+        {/* <Dialog open={dialogSubscribe} onClose={setDialogSubscribe}>
+          <Dialog.Content>
+            <DateTimePicker />
+            <Button onClick={()=>setSubscribeSubmit(true)}>确认添加待办提醒</Button>
+          </Dialog.Content>
+        </Dialog> */}
         <List>
           {props.list.map((item, index) => (
-            <SwipeCell key={item.title}>
-              <Cell
-                className="cell"
-                id={item.isDone === 1 ? "done" : "todo"}
-                key={item.title}
-                onClick={() => {
-                  setDialogDetail({
-                    whos: props.list[index].whos,
-                    index: index,
-                  });
-                  setDetailOpen(true);
-                }}
-              >
-                <div className="cell-context">
-                  <h2>{item.title}</h2>
-                  <div>ddl:{item.timeEnd}</div>
-                </div>
-              </Cell>
+            <>
+              <Dialog open={dialogSubscribe} onClose={setDialogSubscribe}>
+                <Dialog.Content>
+                  <DateTimePicker />
+                </Dialog.Content>
+              </Dialog>
+              <SwipeCell key={item.title}>
+                <Cell
+                  className="cell"
+                  id={item.isDone === 1 ? "done" : "todo"}
+                  key={item.title}
+                  onClick={() => {
+                    setDialogDetail({
+                      whos: props.list[index].whos,
+                      index: index,
+                    });
+                    setDetailOpen(true);
+                  }}
+                >
+                  <div className="cell-context">
+                    <h2>{item.title}</h2>
+                    <div>ddl:{item.timeEnd}</div>
+                  </div>
+                </Cell>
 
-              <SwipeCell.Actions side="right">
-                <Button
-                  variant="contained"
-                  shape="square"
-                  color="info"
-                  onClick={() => {
-                    let tempArr = props.list;
-                    // tempArr[index].isDone = 1;
-                    //更新待办必须使用createTime唯一标识！
-                    console.log(tempArr, tempArr[index].createTime);
-                    Service.updateTodoItem({
-                      title: tempArr[index].title,
-                      timeStart: tempArr[index].timeStart,
-                      whos: tempArr[index].whos,
-                      createTime: tempArr[index].createTime,
-                    }).then((res) => {
-                      if (res.data.data === true) {
-                        setDisplay(!display);
-                      }
-                    });
-                  }}
-                  disabled={item.isDone === 1 ? true : false}
-                >
-                  已完成
-                </Button>
-                <Button
-                  variant="contained"
-                  shape="square"
-                  color="danger"
-                  onClick={() => {
-                    let tempArr = props.list;
-                    // tempArr[index].isDone = 1;
-                    //更新待办必须使用createTime唯一标识！
-                    console.log(tempArr, tempArr[index].createTime);
-                    Service.deleteTodoItem({
-                      title: tempArr[index].title,
-                      timeStart: tempArr[index].timeStart,
-                      whos: tempArr[index].whos,
-                      createTime: tempArr[index].createTime,
-                    }).then((res) => {
-                      if (res.data.data === true) {
-                        setDisplay(!display);
-                      }
-                    });
-                  }}
-                >
-                  删除
-                </Button>
-              </SwipeCell.Actions>
-            </SwipeCell>
+                <SwipeCell.Actions side="right">
+                  <Button
+                    variant="contained"
+                    shape="square"
+                    color="info"
+                    onClick={() => haveDone(index)}
+                    disabled={item.isDone === 1 ? true : false}
+                  >
+                    已完成
+                  </Button>
+                  <Button
+                    variant="contained"
+                    shape="square"
+                    color="success"
+                    onClick={() => {
+                      setSubscribeIndex(index);
+                      setDialogSubscribe(true);
+                    }}
+                    disabled={item.isDone === 1 ? true : false}
+                  >
+                    提醒我
+                  </Button>
+                  <Button
+                    variant="contained"
+                    shape="square"
+                    color="danger"
+                    onClick={() => haveDelete(index)}
+                  >
+                    删除
+                  </Button>
+                </SwipeCell.Actions>
+              </SwipeCell>
+            </>
           ))}
         </List>
       </>
@@ -261,20 +406,6 @@ export function Todo() {
         hook_display={{ value: display, setValue: setDisplay }}
       />
 
-      <Button
-        onClick={() => {
-          Taro.requestSubscribeMessage({
-            tmplIds: ["E1LpkkP8-8XoNI9dRXRrS-hbnhpNmYntkJbX_dhdKdM"],
-            success: function (res) {
-              console.log(res);
-            },
-            fail: function (err) {
-              console.log(err);
-            },
-          });
-        }}
-        shape="round"
-      >订阅</Button>
       <Button
         onClick={() => setAddTodoOpen(true)}
         className="add-button"
