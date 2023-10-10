@@ -35,6 +35,7 @@ export function Home() {
   useEffect(() => {
     Service.getPicThemeArr({ imageIndex: "theme" }).then((res) => {
       const ArrNum = res.data.data;
+      //TODO：后期功能——动态添加主题
       // themePicArr = Array.from({ length: ArrNum.length });
       console.log(ArrNum);
       setThemePicArr(Array.from({ length: ArrNum.length }));
@@ -60,7 +61,7 @@ export function Home() {
       setThemePicArr(tempArr);
     });
     console.log(themePicArr);
-  }, [location, uploadFlag]);
+  }, [uploadFlag]);
 
   function ImageSwiper() {
     const swiperPicArr = Array.from({ length: 3 }).map((_item, index) => {

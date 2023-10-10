@@ -8,6 +8,7 @@ import {
   List,
   SwipeCell,
   Tabs,
+  Toast,
 } from "@taroify/core";
 import { useEffect, useState } from "react";
 import { Add } from "@taroify/icons";
@@ -114,9 +115,10 @@ export function Todo() {
       const [minDate] = useState(new Date());
       const [maxDate] = useState(new Date(2025, 10, 1, 20, 59, 59));
       const [defaultValue] = useState(new Date());
-      const [selectedTime,setSelectedTime] = useState<Date>(new Date())
+      const [selectedTime, setSelectedTime] = useState<Date>(new Date());
+      const [dialogRemind, setDialogRemind] = useState<boolean>(false);
 
-      function haveSubscribe(remindT) {
+      function haveSubscribe(remindT: number) {
         let tempArr = props.list;
         let prop: ISendSubscribeToBack = {
           remindTime: remindT.toString(),
@@ -150,11 +152,11 @@ export function Todo() {
         });
       }
 
-      const handleTimeChange = (date:Date) => {
+      const handleTimeChange = (date: Date) => {
         // 更新组件绑定的日期时间值
         // 不知道为什么直接赋值给onChange会不停触发重新渲染，而中间加一个函数却不会
         setSelectedTime(date);
-        console.log(selectedTime)
+        console.log(selectedTime);
       };
       return (
         <DatetimePicker
@@ -176,16 +178,27 @@ export function Todo() {
                 return val + "分";
             }
           }}
-          onChange={(date)=>handleTimeChange(date)}
+          onChange={(date) => handleTimeChange(date)}
         >
           <DatetimePicker.Toolbar>
             {/* <DatetimePicker.Button >确认添加待办提醒</DatetimePicker.Button> */}
           </DatetimePicker.Toolbar>
+
+          <Toast open={dialogRemind} onClose={setDialogRemind} type="fail">
+            时间间隔过短，请重试
+          </Toast>
           <Button
             color="info"
             shape="round"
             onClick={() => {
-              haveSubscribe(selectedTime.getTime());
+              const selectedTimeStamp = selectedTime.getTime();
+              const nowStamp = new Date().getTime();
+              //与现在时间小于五分钟则不予添加
+              if (selectedTimeStamp - nowStamp > 1000 * 300) {
+                haveSubscribe(selectedTime.getTime() - 1000 * 60); //自作主张将订阅时间提前1分钟
+              } else {
+                setDialogRemind(true);
+              }
             }}
           >
             确认添加待办提醒

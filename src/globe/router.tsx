@@ -22,9 +22,9 @@ export function Routers() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(Taro.getCurrentPages());
-  }, [location]);
+  // useEffect(() => {
+  //   console.log(Taro.getCurrentPages());
+  // }, [location]);
 
   return (
     <Routes>
