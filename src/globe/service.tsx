@@ -71,9 +71,9 @@ export const Service = {
   getPublicKey(){
     return GlobalAxios<string>("get","/public-key")
   },
-  postMsgTest(props: ILogin){
-    return GlobalAxios("post","/decrypt",props)
-  },
+  // postMsgTest(props: ILogin){
+  //   return GlobalAxios("post","/decrypt",props)
+  // },
   login(props: ILogin) {
     return GlobalAxios<string>("post", "/login", props);
   },

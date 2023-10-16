@@ -9,10 +9,9 @@ import {
   Text,
   Input,
 } from "@tarojs/components";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Service } from "@/globe/service";
-import { ILogin } from "@/globe/inter";
-import {JSEncrypt} from 'jsencrypt';
+import { ILogin, importPublicKey } from "@/globe/inter";
 import "./index.scss";
 
 export function LoginPage() {
@@ -21,40 +20,6 @@ export function LoginPage() {
   const [toastOpen2, setToastOpen2] = useState<boolean>(false);
   const [toastOpen3, setToastOpen3] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   // function str2ab(str: string): ArrayBuffer {
-  //   //   const encoder = new TextEncoder();
-  //   //   return encoder.encode(str);
-  //   // }
-  //   function importPublicKey(pem) {
-  //     // 创建 JSEncrypt 实例
-  //     const encryptor = new JSEncrypt();
-
-  //     // 设置公钥
-  //     encryptor.setPublicKey(`-----BEGIN RSA PUBLIC KEY-----
-  //     MIGJAoGBANfatEl/MnUTVklV16LWh9is4R2YlWpULa3FserkAn2Gk6bf75sQTrNe
-  //     mWga3rxKJtlApE7YarRcNJA49Ep/10D1jC3Y6BCZmX23vGkkpf91SxKZWPR2BUsw
-  //     9F4Ft9gKWJ+4DKfyRGHq5yJnMHa3yqkPs3bc+8r/bML6OxGHnqWxAgMBAAE=
-  //     -----END RSA PUBLIC KEY-----
-  //     `);
-
-  //     return encryptor;
-  //   }
-  //   Service.getPublicKey().then(async (res) => {
-  //     console.log(res.data);
-  //     const encryptor = await importPublicKey(res.data);
-  //     console.log("2:", encryptor);
-
-  //     // 要加密的明文数据
-  //     const plaintext = "Hello, World!";
-
-  //     const ciphertext = encryptor.encrypt(plaintext);
-  //     console.log("Ciphertext:", ciphertext);
-  //     // const publicKeyPem = res.data.data
-  //     // const publicKeyBuffer = str2ab(publicKeyPem);
-  //   });
-  // }, []);
-
   function LoginForm() {
     const [userId, setUserId] = useState<string>("");
     const [userPass, setUserPass] = useState<string>("");
@@ -62,26 +27,36 @@ export function LoginPage() {
     function clickLogin(event: BaseEventOrig<FormProps.onSubmitEventDetail>) {
       // console.log(event);
       // const info = event;
-      const info = event.detail.value as ILogin;
-      if (info.username !== "" && info.password !== "") {
-        Service.login(info)
-          .then((res) => {
-            if (res.data.data === "failed") {
-              setToastOpen2(true);
+      let info = event.detail.value as ILogin;
+      if (
+        info.username !== "" &&
+        info.password !== "" &&
+        info.username !== false &&
+        info.password != false
+      ) {
+        Service.getPublicKey().then(async (res) => {
+          const encryptor = await importPublicKey(res.data.data);
+          info.username = await encryptor.encrypt(info.username as string);
+          info.password = await encryptor.encrypt(info.password as string);
+          Service.login(info)
+            .then((res_) => {
+              if (res_.data.data === "failed") {
+                setToastOpen2(true);
+                setTimeout(() => {
+                  setToastOpen2(false);
+                }, 3000);
+              } else {
+                Taro.setStorageSync("token", "tokenQing");
+                navigate("/main/home");
+              }
+            })
+            .catch(() => {
+              setToastOpen3(true);
               setTimeout(() => {
-                setToastOpen2(false);
+                setToastOpen3(false);
               }, 3000);
-            } else {
-              Taro.setStorageSync("token", "tokenQing");
-              navigate("/main/home");
-            }
-          })
-          .catch(() => {
-            setToastOpen3(true);
-            setTimeout(() => {
-              setToastOpen3(false);
-            }, 3000);
-          });
+            });
+        });
       }
     }
     return (
