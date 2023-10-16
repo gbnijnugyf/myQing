@@ -67,6 +67,13 @@ async function GlobalAxios<T = any, D = any>(
 }
 
 export const Service = {
+  //获取加密公钥，返回响应不按IGlobalResponse格式
+  getPublicKey(){
+    return GlobalAxios<string>("get","/public-key")
+  },
+  postMsgTest(props: ILogin){
+    return GlobalAxios("post","/decrypt",props)
+  },
   login(props: ILogin) {
     return GlobalAxios<string>("post", "/login", props);
   },

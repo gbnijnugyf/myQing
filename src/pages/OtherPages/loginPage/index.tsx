@@ -1,11 +1,18 @@
 /* eslint-disable jsx-quotes */
-import { Button, Cell, Toast, Form, Field} from "@taroify/core";
+import { Button, Cell, Toast, Form, Field } from "@taroify/core";
 import Taro from "@tarojs/taro";
 import { useNavigate } from "react-router-dom";
-import { BaseEventOrig, FormProps, View, Text, Input  } from "@tarojs/components";
-import { useRef, useState } from "react";
+import {
+  BaseEventOrig,
+  FormProps,
+  View,
+  Text,
+  Input,
+} from "@tarojs/components";
+import { useEffect, useRef, useState } from "react";
 import { Service } from "@/globe/service";
 import { ILogin } from "@/globe/inter";
+import {JSEncrypt} from 'jsencrypt';
 import "./index.scss";
 
 export function LoginPage() {
@@ -14,44 +21,40 @@ export function LoginPage() {
   const [toastOpen2, setToastOpen2] = useState<boolean>(false);
   const [toastOpen3, setToastOpen3] = useState<boolean>(false);
 
-  function BasicForm() {
-    const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
-      Toast.open(JSON.stringify(event.detail.value))
-    }
-  
-    return (
-      <Form onSubmit={onSubmit}>
-        <Toast id="toast" />
-        <Cell.Group inset>
-          <Form.Item name="username" rules={[{ required: true, message: "请填写用户名" }]}>
-            <Form.Label>用户名</Form.Label>
-            <Form.Control>
-              <Input placeholder="用户名" />
-            </Form.Control>
-          </Form.Item>
-          <Form.Item name="password" rules={[{ required: true, message: "请填写密码" }]}>
-            <Form.Label>密码</Form.Label>
-            <Form.Control>
-              <Input password placeholder="密码" />
-            </Form.Control>
-          </Form.Item>
-          <Field
-            name="text"
-            label={{ align: "left", children: "文本" }}
-            rules={[{ required: true, message: "请填写文本" }]}
-          >
-            <Input placeholder="请输入文本" />
-          </Field>
-        </Cell.Group>
-        <View style={{ margin: "16px" }}>
-          <Button shape="round" block color="primary" formType="submit">
-            提交
-          </Button>
-        </View>
-      </Form>
-    )
-  }
-  
+  // useEffect(() => {
+  //   // function str2ab(str: string): ArrayBuffer {
+  //   //   const encoder = new TextEncoder();
+  //   //   return encoder.encode(str);
+  //   // }
+  //   function importPublicKey(pem) {
+  //     // 创建 JSEncrypt 实例
+  //     const encryptor = new JSEncrypt();
+
+  //     // 设置公钥
+  //     encryptor.setPublicKey(`-----BEGIN RSA PUBLIC KEY-----
+  //     MIGJAoGBANfatEl/MnUTVklV16LWh9is4R2YlWpULa3FserkAn2Gk6bf75sQTrNe
+  //     mWga3rxKJtlApE7YarRcNJA49Ep/10D1jC3Y6BCZmX23vGkkpf91SxKZWPR2BUsw
+  //     9F4Ft9gKWJ+4DKfyRGHq5yJnMHa3yqkPs3bc+8r/bML6OxGHnqWxAgMBAAE=
+  //     -----END RSA PUBLIC KEY-----
+  //     `);
+
+  //     return encryptor;
+  //   }
+  //   Service.getPublicKey().then(async (res) => {
+  //     console.log(res.data);
+  //     const encryptor = await importPublicKey(res.data);
+  //     console.log("2:", encryptor);
+
+  //     // 要加密的明文数据
+  //     const plaintext = "Hello, World!";
+
+  //     const ciphertext = encryptor.encrypt(plaintext);
+  //     console.log("Ciphertext:", ciphertext);
+  //     // const publicKeyPem = res.data.data
+  //     // const publicKeyBuffer = str2ab(publicKeyPem);
+  //   });
+  // }, []);
+
   function LoginForm() {
     const [userId, setUserId] = useState<string>("");
     const [userPass, setUserPass] = useState<string>("");
@@ -83,7 +86,7 @@ export function LoginPage() {
     }
     return (
       //TODO:真机调试有BUG，输入框疯狂刷新，刚输入的就没了
-      <Form onSubmit={(e) => clickLogin(e)} ref={useRef()}>  
+      <Form onSubmit={(e) => clickLogin(e)} ref={useRef()}>
         <Toast open={toastOpen2}>密码或用户名错误</Toast>
         <Toast open={toastOpen3}>服务端错误，请稍后重试</Toast>
         <Cell.Group inset>

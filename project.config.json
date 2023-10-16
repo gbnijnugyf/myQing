@@ -9,7 +9,9 @@
     "postcss": false,
     "minified": false,
     "babelSetting": {
-      "ignore": [],
+      "ignore": [
+        "js/libs/a.min.js"
+      ],
       "disablePlugins": [],
       "outputPath": ""
     },

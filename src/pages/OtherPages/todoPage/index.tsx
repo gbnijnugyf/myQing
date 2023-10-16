@@ -31,7 +31,7 @@ export function Todo() {
       detail: "详细内容",
       timeStart: "*",
       timeEnd: "*",
-      isDone: 1,
+      isDone: 2,
       whos: "qing",
       createTime: Date().toString(),
     },
@@ -152,12 +152,13 @@ export function Todo() {
         });
       }
 
-      const handleTimeChange = (date: Date) => {
-        // 更新组件绑定的日期时间值
-        // 不知道为什么直接赋值给onChange会不停触发重新渲染，而中间加一个函数却不会
-        setSelectedTime(date);
-        console.log(selectedTime);
-      };
+      // const handleTimeChange = (date: Date) => {
+      //   // 更新组件绑定的日期时间值
+      //   // 不知道为什么直接赋值给onChange会不停触发重新渲染，而中间加一个函数却不会
+      //   // 莫名奇妙又好了，直接放在onchange中不会不停渲染了
+      //   setSelectedTime(date);
+      //   console.log(selectedTime);
+      // };
       return (
         <DatetimePicker
           type="date-minute"
@@ -178,7 +179,12 @@ export function Todo() {
                 return val + "分";
             }
           }}
-          onChange={(date) => handleTimeChange(date)}
+          // onChange={(date) => {
+          //   // handleTimeChange(date);
+          //   setSelectedTime(date);
+          //   console.log(selectedTime)
+          // }}
+          onChange={(date)=>setSelectedTime(date)}
         >
           <DatetimePicker.Toolbar>
             {/* <DatetimePicker.Button >确认添加待办提醒</DatetimePicker.Button> */}
@@ -336,7 +342,7 @@ export function Todo() {
               <SwipeCell key={item.title}>
                 <Cell
                   className="cell"
-                  id={item.isDone === 1 ? "done" : "todo"}
+                  id={item.isDone === 1||2 ? "done" : "todo"}
                   key={item.title}
                   onClick={() => {
                     setDialogDetail({
@@ -379,6 +385,8 @@ export function Todo() {
                     shape="square"
                     color="danger"
                     onClick={() => haveDelete(index)}
+                    //TODO:这里好像是有个展示bug的，此处是希望无数据时展示初始化的，初始化item当然不能删除
+                    disabled={item.isDone === 2 ? false : true}
                   >
                     删除
                   </Button>
