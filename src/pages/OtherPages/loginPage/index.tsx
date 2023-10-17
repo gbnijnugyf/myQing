@@ -1,6 +1,8 @@
 /* eslint-disable jsx-quotes */
 import { Button, Cell, Toast, Form, Field } from "@taroify/core";
 import Taro from "@tarojs/taro";
+import { Clear } from "@taroify/icons";
+
 import { useNavigate } from "react-router-dom";
 import {
   BaseEventOrig,
@@ -142,6 +144,7 @@ export function LoginPage() {
           {/* my晴宝 */}
         </h1>
         <LoginForm />
+
         <Button
           onClick={() => {
             console.log("token:", Taro.getStorageSync("token"));
@@ -149,13 +152,34 @@ export function LoginPage() {
               const imgCode = res.data;
               const blob = new Blob([imgCode], { type: "image/jpeg" }); // 根据实际图片类型设置 MIME 类型
               const imageUrl = window.URL.createObjectURL(blob);
+              console.log(imageUrl)
               setImgtest(imageUrl);
             });
           }}
         >
           getImg
         </Button>
-        <Image src={imgtest} />
+        <Clear
+          onClick={() =>
+            setDeleteConfirm({
+              isOpen: true,
+              isDelete: true,
+              getImageUrl: item,
+            })
+          }
+        />
+        <Image
+          src={imgtest}
+          onClick={() => {
+            let current = imgtest; //这里获取到的是一张本地的图片
+            Taro.previewImage({
+              current: current, //需要预览的图片链接列表
+              urls: [current], //当前显示图片的链接
+              enablesavephoto: true,
+              enableShowPhotoDownload: true,
+            });
+          }}
+        />
         {/* <img src={imgtest} /> */}
         {/* <BasicForm /> */}
         {/* </div> */}
