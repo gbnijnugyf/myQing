@@ -8,6 +8,7 @@ import {
   View,
   Text,
   Input,
+  Image,
 } from "@tarojs/components";
 import { useRef, useState } from "react";
 import { Service } from "@/globe/service";
@@ -40,13 +41,13 @@ export function LoginPage() {
           info.password = await encryptor.encrypt(info.password as string);
           Service.login(info)
             .then((res_) => {
-              if (res_.data.data === "failed") {
+              if (res_.data.msg !== "successful") {
                 setToastOpen2(true);
                 setTimeout(() => {
                   setToastOpen2(false);
                 }, 3000);
               } else {
-                Taro.setStorageSync("token", "tokenQing");
+                Taro.setStorageSync("token", res_.data.data);
                 navigate("/main/home");
               }
             })
@@ -127,6 +128,7 @@ export function LoginPage() {
     setToastOpen1(false);
   }, 3000);
 
+  const [imgtest, setImgtest] = useState("");
   return (
     <>
       <div className="login-page">
@@ -140,6 +142,21 @@ export function LoginPage() {
           {/* my晴宝 */}
         </h1>
         <LoginForm />
+        <Button
+          onClick={() => {
+            console.log("token:", Taro.getStorageSync("token"));
+            Service.getPicTheme({ id: "2-0" }).then((res) => {
+              const imgCode = res.data;
+              const blob = new Blob([imgCode], { type: "image/jpeg" }); // 根据实际图片类型设置 MIME 类型
+              const imageUrl = window.URL.createObjectURL(blob);
+              setImgtest(imageUrl);
+            });
+          }}
+        >
+          getImg
+        </Button>
+        <Image src={imgtest} />
+        {/* <img src={imgtest} /> */}
         {/* <BasicForm /> */}
         {/* </div> */}
       </div>

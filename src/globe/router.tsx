@@ -14,6 +14,7 @@ export function Routers() {
 
   useEffect(() => {
     let token = Taro.getStorageSync("token");
+    // console.log(Taro.getStorageSync("token"));
     if (token !== "" && !location.pathname.startsWith("/login")) {
       navigate("/main/home");
     } else if (token === "" && !location.pathname.startsWith("/login")) {
@@ -22,9 +23,9 @@ export function Routers() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(Taro.getCurrentPages());
-  }, [location]);
+  // useEffect(() => {
+  //   console.log(Taro.getCurrentPages());
+  // }, [location]);
 
   return (
     <Routes>

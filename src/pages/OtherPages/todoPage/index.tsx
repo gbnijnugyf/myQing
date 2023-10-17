@@ -84,17 +84,21 @@ export function Todo() {
   useEffect(() => {
     Service.getTodoList({ tab: "qing" }).then((res) => {
       const list = res.data.data;
-      let listNotDone = list.filter(checkNotDone).sort(sortByDDL);
-      let listDone = list.filter(checkDone).sort(sortByDDL);
-      setListQingDone(listDone);
-      setListQing(listNotDone);
+      if (list != null) {
+        let listNotDone = list.filter(checkNotDone).sort(sortByDDL);
+        let listDone = list.filter(checkDone).sort(sortByDDL);
+        setListQingDone(listDone);
+        setListQing(listNotDone);
+      }
     });
     Service.getTodoList({ tab: "song" }).then((res) => {
       const list_ = res.data.data;
-      let listNotDone = list_.filter(checkNotDone).sort(sortByDDL);
-      let listDone = list_.filter(checkDone).sort(sortByDDL);
-      setListSongDone(listDone);
-      setListSong(listNotDone);
+      if (list_ != null) {
+        let listNotDone = list_.filter(checkNotDone).sort(sortByDDL);
+        let listDone = list_.filter(checkDone).sort(sortByDDL);
+        setListSongDone(listDone);
+        setListSong(listNotDone);
+      }
     });
   }, [display]);
 
@@ -184,7 +188,7 @@ export function Todo() {
           //   setSelectedTime(date);
           //   console.log(selectedTime)
           // }}
-          onChange={(date)=>setSelectedTime(date)}
+          onChange={(date) => setSelectedTime(date)}
         >
           <DatetimePicker.Toolbar>
             {/* <DatetimePicker.Button >确认添加待办提醒</DatetimePicker.Button> */}
@@ -342,7 +346,7 @@ export function Todo() {
               <SwipeCell key={item.title}>
                 <Cell
                   className="cell"
-                  id={item.isDone === 1||2 ? "done" : "todo"}
+                  id={item.isDone === 1 || 2 ? "done" : "todo"}
                   key={item.title}
                   onClick={() => {
                     setDialogDetail({

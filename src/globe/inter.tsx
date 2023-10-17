@@ -7,7 +7,6 @@ export interface ILogin {
 
 export interface IGetPicSwiper {
   id: string;
-  pass: string;
 }
 
 export interface IHookInterface<T> {
