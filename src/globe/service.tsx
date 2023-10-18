@@ -68,19 +68,19 @@ async function GlobalAxios<T = any, G = IGlobalResponse<T>, D = any>(
     config.baseURL = BASEURL;
     console.log("1:", url);
   } else {
-    console.log("2:", url);
+    
     config.baseURL = BASEURL + "/main";
   }
   const token = Taro.getStorageSync("token");
   if (token !== "") {
     config.headers = { token: token };
   }
-  if (url.startsWith("/getPicTheme?id=")){
+  if (url.startsWith("/getPicTheme?id=")||url.startsWith("/getPicSwiper?id=")){
     config.responseType = "arraybuffer" 
   }
   // config.baseURL =
   //   url === "/login" || "/public-key" ? BASEURL : BASEURL + "/main";
-  console.log(url, config.baseURL);
+  
   const parsedURL = new URL(BASEURL + url);
   const params = new URLSearchParams(parsedURL.searchParams || "");
   //   url = parsedURL.pathname || "";

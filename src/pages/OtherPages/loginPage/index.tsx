@@ -130,7 +130,6 @@ export function LoginPage() {
     setToastOpen1(false);
   }, 3000);
 
-  const [imgtest, setImgtest] = useState("");
   return (
     <>
       <div className="login-page">
@@ -145,41 +144,7 @@ export function LoginPage() {
         </h1>
         <LoginForm />
 
-        <Button
-          onClick={() => {
-            console.log("token:", Taro.getStorageSync("token"));
-            Service.getPicTheme({ id: "2-0" }).then((res) => {
-              const imgCode = res.data;
-              const blob = new Blob([imgCode], { type: "image/jpeg" }); // 根据实际图片类型设置 MIME 类型
-              const imageUrl = window.URL.createObjectURL(blob);
-              console.log(imageUrl)
-              setImgtest(imageUrl);
-            });
-          }}
-        >
-          getImg
-        </Button>
-        <Clear
-          onClick={() =>
-            setDeleteConfirm({
-              isOpen: true,
-              isDelete: true,
-              getImageUrl: item,
-            })
-          }
-        />
-        <Image
-          src={imgtest}
-          onClick={() => {
-            let current = imgtest; //这里获取到的是一张本地的图片
-            Taro.previewImage({
-              current: current, //需要预览的图片链接列表
-              urls: [current], //当前显示图片的链接
-              enablesavephoto: true,
-              enableShowPhotoDownload: true,
-            });
-          }}
-        />
+        
         {/* <img src={imgtest} /> */}
         {/* <BasicForm /> */}
         {/* </div> */}
