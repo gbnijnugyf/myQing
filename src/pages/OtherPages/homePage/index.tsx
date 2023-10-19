@@ -32,8 +32,8 @@ export function Home() {
   const location = useLocation();
   const [themePicArr, setThemePicArr] = useState<(string[] | null)[]>();
   //标记上传或删除
-  // const [uploadFlag, setUploadFlag] = useState<boolean>(false);
-  const uploadFlag = useRef(false);
+  const [uploadFlag, setUploadFlag] = useState<boolean>(false);
+  // const uploadFlag = useRef(false);
   // const [staticToken, setStaticToken] = useState<string>();
   const staticToken = useRef<string>("");
   const ArrayNum = useRef<number[][]>();
@@ -151,8 +151,8 @@ export function Home() {
         Service.deletePicTheme({ picName: "theme" + match[0] }).then((res) => {
           console.log(res);
           if (res.data.data === true) {
-            // setUploadFlag(!uploadFlag);
-            uploadFlag.current = !uploadFlag.current;
+            setUploadFlag(!uploadFlag);
+            // uploadFlag.current = !uploadFlag.current;
           } else {
             Notify.open("呜呜呜删除失败了");
           }
@@ -204,18 +204,21 @@ export function Home() {
         const [file, setFile] = useState<Uploader.File>();
         const successFunc = async (res: IUploadPic) => {
           const fileArr = res.tempFilePaths;
+          console.log("fileArr:",fileArr)
           let isUpLoad = false;
           for (let i = 0; i < res.tempFiles.length; i++) {
             await Service.postPicTheme({
               imageIndex: props.theme.key,
               file: fileArr[i],
-            }).then(() => {
+            }).then((rest) => {
+              console.log("res:",rest)
               isUpLoad = true;
-            });
+            }).catch((r)=>console.log(r));
           }
           if (isUpLoad) {
-            // setUploadFlag(!uploadFlag);
-            uploadFlag.current = !uploadFlag.current;
+            console.log(isUpLoad)
+            setUploadFlag(!uploadFlag);
+            // uploadFlag.current = !uploadFlag.current;
           }
         };
 

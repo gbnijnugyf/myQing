@@ -112,7 +112,10 @@ export const Service = {
     return GlobalAxios<string>("get", "/public-key");
   },
   getToken(props: IGetToken) {
-    return GlobalAxios<string>("get", appendParams2Path("/get-token", { ...props }));
+    return GlobalAxios<string>(
+      "get",
+      appendParams2Path("/get-token", { ...props })
+    );
   },
 
   //返回token
@@ -183,7 +186,8 @@ export const Service = {
   //weapp不支持formdata上传文件，调用API发送请求
   postPicTheme(props: IPostPicTheme) {
     return Taro.uploadFile({
-      url: BASEURL + "/postPicTheme",
+      header: { token: Taro.getStorageSync("token") },
+      url: BASEURL + "/main/postPicTheme",
       filePath: props.file,
       name: "file",
       formData: {
