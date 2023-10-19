@@ -8,6 +8,9 @@ export interface ILogin {
 export interface IGetPicSwiper {
   id: string;
 }
+export interface IGetToken {
+  time: string;
+}
 
 export interface IHookInterface<T> {
   value: T;
@@ -55,6 +58,10 @@ export interface ISendCodeToBack {
   todoInfo: IUpdateItem;
   remindTime: string; //时间戳
   code: string;
+}
+export interface IStaticToken{
+  token:string
+  time:number
 }
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";

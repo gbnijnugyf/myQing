@@ -7,6 +7,7 @@ import {
   IGetPicSwiper,
   IGetPicThemeArr,
   IGetTodoList,
+  IGetToken,
   ILogin,
   IPostPicTheme,
   ISendCodeToBack,
@@ -66,21 +67,22 @@ async function GlobalAxios<T = any, G = IGlobalResponse<T>, D = any>(
   let config: AxiosRequestConfig<D> = {};
   if (url === "/login" || url === "/public-key") {
     config.baseURL = BASEURL;
-    console.log("1:", url);
   } else {
-    
     config.baseURL = BASEURL + "/main";
   }
   const token = Taro.getStorageSync("token");
   if (token !== "") {
     config.headers = { token: token };
   }
-  if (url.startsWith("/getPicTheme?id=")||url.startsWith("/getPicSwiper?id=")){
-    config.responseType = "arraybuffer" 
+  if (
+    url.startsWith("/getPicTheme?id=") ||
+    url.startsWith("/getPicSwiper?id=")
+  ) {
+    config.responseType = "arraybuffer";
   }
   // config.baseURL =
   //   url === "/login" || "/public-key" ? BASEURL : BASEURL + "/main";
-  
+
   const parsedURL = new URL(BASEURL + url);
   const params = new URLSearchParams(parsedURL.searchParams || "");
   //   url = parsedURL.pathname || "";
@@ -109,9 +111,10 @@ export const Service = {
   getPublicKey() {
     return GlobalAxios<string>("get", "/public-key");
   },
-  // postMsgTest(props: ILogin){
-  //   return GlobalAxios("post","/decrypt",props)
-  // },
+  getToken(props: IGetToken) {
+    return GlobalAxios<string>("get", appendParams2Path("/get-token", { ...props }));
+  },
+
   //返回token
   login(props: ILogin) {
     return GlobalAxios<string>("post", "/login", props);
@@ -156,7 +159,7 @@ export const Service = {
   getTodoList(props: IGetTodoList) {
     return GlobalAxios<ITodoItem[]>(
       "get",
-      appendParams2Path("/getTodolist", { ...props }),
+      appendParams2Path("/getTodolist", { ...props })
     );
   },
   addTodoItem(props: ITodoItem) {
