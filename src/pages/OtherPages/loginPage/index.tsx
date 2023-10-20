@@ -1,16 +1,13 @@
 /* eslint-disable jsx-quotes */
-import { Button, Cell, Toast, Form, Field } from "@taroify/core";
+import { Button, Cell, Toast, Form } from "@taroify/core";
 import Taro from "@tarojs/taro";
-import { Clear } from "@taroify/icons";
 
 import { useNavigate } from "react-router-dom";
 import {
   BaseEventOrig,
   FormProps,
   View,
-  Text,
   Input,
-  Image,
 } from "@tarojs/components";
 import { useRef, useState } from "react";
 import { Service } from "@/globe/service";

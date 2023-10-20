@@ -24,9 +24,6 @@ interface IImageLine {
   theme: ITheme;
   picArr: string[] | null;
 }
-interface IHome {
-  imgLoadRef: React.MutableRefObject<boolean>;
-}
 
 export function Home(/*imgLoad: IHome*/) {
   const [themePicArr, setThemePicArr] = useState<(string[] | null)[]>();

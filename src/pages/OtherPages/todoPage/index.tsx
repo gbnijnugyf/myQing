@@ -175,15 +175,9 @@ export function Todo() {
                 return val + "分";
             }
           }}
-          // onChange={(date) => {
-          //   // handleTimeChange(date);
-          //   setSelectedTime(date);
-          //   console.log(selectedTime)
-          // }}
           onChange={(date) => setSelectedTime(date)}
         >
           <DatetimePicker.Toolbar>
-            {/* <DatetimePicker.Button >确认添加待办提醒</DatetimePicker.Button> */}
           </DatetimePicker.Toolbar>
 
           <Toast open={dialogRemind} onClose={setDialogRemind} type="fail">
@@ -210,9 +204,6 @@ export function Todo() {
     }
     function haveDone(index: number) {
       let tempArr = props.list;
-      // tempArr[index].isDone = 1;
-      //更新待办必须使用createTime唯一标识！
-      // console.log(tempArr, tempArr[index].createTime);
       Service.updateTodoItem({
         title: tempArr[index].title,
         whos: tempArr[index].whos,
@@ -225,8 +216,6 @@ export function Todo() {
     }
     function haveDelete(index: number) {
       let tempArr = props.list;
-      // tempArr[index].isDone = 1;
-      //更新待办必须使用createTime唯一标识！
       console.log(tempArr, tempArr[index].createTime);
       Service.deleteTodoItem({
         title: tempArr[index].title,
@@ -238,39 +227,6 @@ export function Todo() {
         }
       });
     }
-    // function haveSubscribe(index: number) {
-    //   // setDialogSubscribe(true);
-    //   let tempArr = props.list;
-    //   let prop: ISendSubscribeToBack = {
-    //     title: tempArr[index].title,
-    //     createTime: tempArr[index].createTime,
-    //     remindTime: remindT.toString(),
-    //   };
-    //   if (subscribeSubmit === true) {
-    //     console.log("run");
-    //     setSubscribeSubmit(false);
-    //   }
-    //   // subscribeMessage(prop);
-    // }
-    // function subscribeMessage(prop: ISendSubscribeToBack) {
-    //   Taro.requestSubscribeMessage({
-    //     tmplIds: ["E1LpkkP8-8XoNI9dRXRrSw10GxgYuyECbAesyP9VVL0"],
-    //     success: function (res) {
-    //       console.log(res);
-    //       //TODO:该请求需要增加字段以区分对应待办
-    //       Service.sendSubscribeToBack({
-    //         title: prop.title,
-    //         createTime: prop.createTime,
-    //         remindTime: prop.remindTime,
-    //       });
-    //       setDialogSubscribe(false);
-    //     },
-    //     fail: function (err) {
-    //       console.log(err);
-    //     },
-    //   });
-    // }
-
     return (
       <>
         <Dialog open={detailOpen} onClose={setDetailOpen}>
@@ -321,12 +277,6 @@ export function Todo() {
             </div>
           </Dialog.Content>
         </Dialog>
-        {/* <Dialog open={dialogSubscribe} onClose={setDialogSubscribe}>
-          <Dialog.Content>
-            <DateTimePicker />
-            <Button onClick={()=>setSubscribeSubmit(true)}>确认添加待办提醒</Button>
-          </Dialog.Content>
-        </Dialog> */}
         <List>
           {props.list.map((item, index) => (
             <>

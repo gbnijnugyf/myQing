@@ -16,25 +16,6 @@ export default function Index() {
 
   return (
     <>
-      {/* <button
-        style={{
-          width: "auto",
-          height: "auto",
-          zIndex: "999",
-          position: "absolute",
-        }}
-        onClick={() => {
-          if (token !== "") {
-            Taro.removeStorageSync("token");
-            setToken("");
-          } else {
-            Taro.setStorageSync("token", "tokenQing");
-            setToken("tokenQing");
-          }
-        }}
-      >
-        {token !== "" ? "删除" : "生成"}token
-      </button> */}
       <div className="board">
         <BrowserRouter>
           <Routers />

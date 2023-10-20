@@ -32,9 +32,7 @@ function androidTimeType(time: Date) {
 function formatFullDate(dateRange?: Date[]) {
   if (dateRange?.length) {
     const [start, end] = dateRange;
-
     return `${androidTimeType(start)}-${androidTimeType(end)}`;
-    // return `${start.toLocaleDateString()}-${end.toLocaleDateString()}`;
   }
 }
 

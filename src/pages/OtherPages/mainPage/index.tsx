@@ -4,11 +4,9 @@ import {
   HomeOutlined,
   OrdersOutlined,
   UserOutlined,
-  Like,
 } from "@taroify/icons";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Service } from "@/globe/service";
+import { useState } from "react";
 
 import "./index.scss";
 

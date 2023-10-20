@@ -91,13 +91,6 @@ async function GlobalAxios<T = any, G = IGlobalResponse<T>, D = any>(
     params.set("time", new Date().getTime().toString());
     response = await globalAxios[method]<G>(url, config);
   }
-
-  // if (response.statusText === "OK") {
-  //   return response;
-  // } else {
-  //   //TODO:全局报错，小程序不存在alert，待修改
-  //   console.log(response.data.msg);
-  // }
   return response;
 }
 
