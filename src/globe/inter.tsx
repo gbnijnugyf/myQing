@@ -41,7 +41,7 @@ export interface ITodoItem {
   detail: string;
   timeStart: string;
   timeEnd: string;
-  isDone: 0 | -1 | 1 | 2;
+  isDone: 0 | -1 | 1 | 2;//2为初始化标识
   whos: tabType;
   createTime: string; //不向后端上传，只从后端接收，且不展示
 }
@@ -65,7 +65,7 @@ export interface IStaticToken{
 }
 
 // export const BASEURL = "http://127.0.0.1:4523/m1/3245380-0-default";
-// export const BASEURL = "http://192.168.130.2:8080";
+// export const BASEURL = "http://192.168.251.2:8080";
 // export const BASEURL = "http://localhost:8080";
 export const BASEURL = "https://zqsongsong.top";
 export const TEMPLIdS = "E1LpkkP8-8XoNI9dRXRrS7UzLJ3z80zrWlYC8rYUJbY";

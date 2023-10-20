@@ -20,13 +20,21 @@ import "./index.scss";
 interface IAddTodo {
   tabValue: tabType;
   hook_addDialog: IHookInterface<boolean>;
-  hook_display:IHookInterface<boolean>;
+  hook_display: IHookInterface<boolean>;
 }
 
+function androidTimeType(time: Date) {
+  const year = time.getFullYear();
+  const month = time.getMonth() + 1; // 月份从0开始，需要加1
+  const day = time.getDate();
+  return `${year}/${month}/${day}`;
+}
 function formatFullDate(dateRange?: Date[]) {
   if (dateRange?.length) {
     const [start, end] = dateRange;
-    return `${start.toLocaleDateString()}-${end.toLocaleDateString()}`;
+
+    return `${androidTimeType(start)}-${androidTimeType(end)}`;
+    // return `${start.toLocaleDateString()}-${end.toLocaleDateString()}`;
   }
 }
 
@@ -51,7 +59,7 @@ export function AddTodo(prop: IAddTodo) {
           setToast(true);
         } else {
           prop.hook_addDialog.setValue(false);
-          prop.hook_display.setValue(!prop.hook_display.value)
+          prop.hook_display.setValue(!prop.hook_display.value);
         }
       })
       .catch(() => {
@@ -60,7 +68,11 @@ export function AddTodo(prop: IAddTodo) {
   }
   return (
     <>
-      <Dialog className="" open={prop.hook_addDialog.value} onClose={prop.hook_addDialog.setValue}>
+      <Dialog
+        className=""
+        open={prop.hook_addDialog.value}
+        onClose={prop.hook_addDialog.setValue}
+      >
         <Dialog.Content>
           <Toast open={toast} onClose={setToast} type="fail">
             添加失败，请完善信息或稍后重试
@@ -97,10 +109,11 @@ export function AddTodo(prop: IAddTodo) {
               value={value}
               onChange={setValue}
               onConfirm={(newValue) => {
+                console.log([...newValue][0], typeof [...newValue][0]);
                 if (newValue?.length) {
                   setTime([
-                    [...newValue][0].toLocaleDateString(),
-                    [...newValue][1].toLocaleDateString(),
+                    androidTimeType([...newValue][0]),
+                    androidTimeType([...newValue][1]),
                   ]);
                 } else {
                   setTime(["", ""]);

@@ -338,7 +338,7 @@ export function Todo() {
               <SwipeCell key={item.title}>
                 <Cell
                   className="cell"
-                  id={item.isDone === 1 || 2 ? "done" : "todo"}
+                  id={item.isDone === 1 || item.isDone === 2 ? "done" : "todo"}
                   key={item.title}
                   onClick={() => {
                     setDialogDetail({
