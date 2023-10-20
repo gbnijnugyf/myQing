@@ -13,13 +13,16 @@ export function Routers() {
   const location = useLocation();
 
   useEffect(() => {
+    console.log("running")
     let token = Taro.getStorageSync("token");
     if (token !== "" && !location.pathname.startsWith("/login")) {
-      navigate("/main/home");
+      if(!location.pathname.startsWith("/main")){
+        navigate("/main/home");
+      }
     } else if (token === "" && !location.pathname.startsWith("/login")) {
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <Routes>
