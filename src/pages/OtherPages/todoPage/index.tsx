@@ -139,7 +139,6 @@ export function Todo() {
           tmplIds: [TEMPLIdS],
           success: function (res) {
             console.log(res);
-            //TODO:该请求需要增加字段以区分对应待办
             Service.sendSubscribeToBack({
               todoInfo: {
                 title: prop.todoInfo.title,
@@ -156,13 +155,6 @@ export function Todo() {
         });
       }
 
-      // const handleTimeChange = (date: Date) => {
-      //   // 更新组件绑定的日期时间值
-      //   // 不知道为什么直接赋值给onChange会不停触发重新渲染，而中间加一个函数却不会
-      //   // 莫名奇妙又好了，直接放在onchange中不会不停渲染了
-      //   setSelectedTime(date);
-      //   console.log(selectedTime);
-      // };
       return (
         <DatetimePicker
           type="date-minute"
@@ -309,9 +301,9 @@ export function Todo() {
                   添加人：
                   {props.list[dialogDetail.index] !== undefined
                     ? props.list[dialogDetail.index].whos === "qing"
-                      ? 1
+                      ? "晴宝"
                       : props.list[dialogDetail.index].whos === "song"
-                      ? 2
+                      ? "宋宋"
                       : "出错啦！"
                     : "出错啦！"}
                 </p>
@@ -406,13 +398,13 @@ export function Todo() {
   function BasicTabs() {
     return (
       <Tabs defaultValue="qing" value={tabValue} onChange={setTabValue}>
-        <Tabs.TabPane value="qing" title="标签 1">
+        <Tabs.TabPane value="qing" title="晴宝的">
           <Divider>未完成</Divider>
           <TodoList list={listQing} setList={setListQing} />
           <Divider>已完成</Divider>
           <TodoList list={listQingDone} setList={setListQingDone} />
         </Tabs.TabPane>
-        <Tabs.TabPane value="song" title="标签 2">
+        <Tabs.TabPane value="song" title="宋宋的">
           <Divider>未完成</Divider>
           <TodoList list={listSong} setList={setListSong} />
           <Divider>已完成</Divider>

@@ -8,9 +8,6 @@ export function Person() {
   function BasicCollapse() {
     const [value, setValue] = useState([0]);
     //TODO:后期功能——动态改变大事记内容
-    // const [logArr, setLogArr] = useState([
-
-    // ])
     return (
       <Collapse value={value} onChange={setValue}>
         <Collapse.Item title="大事记">

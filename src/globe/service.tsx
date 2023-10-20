@@ -14,8 +14,6 @@ import {
   ISendSubscribeToBack,
   ITodoItem,
   IUpdateItem,
-  IUploadPic,
-  createFormData,
 } from "./inter";
 
 // 返回响应中data的类型
@@ -80,12 +78,9 @@ async function GlobalAxios<T = any, G = IGlobalResponse<T>, D = any>(
   ) {
     config.responseType = "arraybuffer";
   }
-  // config.baseURL =
-  //   url === "/login" || "/public-key" ? BASEURL : BASEURL + "/main";
 
   const parsedURL = new URL(BASEURL + url);
   const params = new URLSearchParams(parsedURL.searchParams || "");
-  //   url = parsedURL.pathname || "";
   config.params = params;
 
   let response;
@@ -97,12 +92,12 @@ async function GlobalAxios<T = any, G = IGlobalResponse<T>, D = any>(
     response = await globalAxios[method]<G>(url, config);
   }
 
-  if (response.statusText === "OK") {
-    return response;
-  } else {
-    //TODO:全局报错，小程序不存在alert，待修改
-    console.log(response.data.msg);
-  }
+  // if (response.statusText === "OK") {
+  //   return response;
+  // } else {
+  //   //TODO:全局报错，小程序不存在alert，待修改
+  //   console.log(response.data.msg);
+  // }
   return response;
 }
 

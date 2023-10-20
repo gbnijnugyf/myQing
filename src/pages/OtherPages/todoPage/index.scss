@@ -4,15 +4,12 @@
   align-items: center;
   min-width: 100vw;
   overflow-y: overlay;
-  border: 1px solid red;
   height: 99%;
 
   .cell {
     margin-top: 10%;
     width: 80vw;
-    border: 1px solid green;
     .cell-context {
-      // border: 1px solid black;
       height: fit-content;
       display: flex;
       flex-direction: row;

@@ -20,10 +20,6 @@ export function MainPage() {
   ]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   Service.sendCodeToBack()
-  // });
-
   function BadgeTabbar() {
     function selectTabs(value: string) {
       navigate(value);
@@ -73,13 +69,6 @@ export function MainPage() {
 
   return (
     <>
-      {/* <div className="title">
-        <div>
-          宋宋
-          <Like color="red" />
-          晴宝
-        </div>
-      </div> */}
       <div className="outlet">
         <Outlet />
       </div>

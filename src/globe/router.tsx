@@ -1,7 +1,7 @@
 /* eslint-disable jsx-quotes */
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Taro from "@tarojs/taro";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { LoginPage } from "@/pages/OtherPages/loginPage";
 import { MainPage } from "@/pages/OtherPages/mainPage";
 import { Home } from "@/pages/OtherPages/homePage";
@@ -11,6 +11,7 @@ import { Todo } from "@/pages/OtherPages/todoPage";
 export function Routers() {
   const navigate = useNavigate();
   const location = useLocation();
+  // const imgLoad = useRef<boolean>(true)
 
   useEffect(() => {
     let token = Taro.getStorageSync("token");
@@ -18,14 +19,9 @@ export function Routers() {
     if (token !== "" && !location.pathname.startsWith("/login")) {
       navigate("/main/home");
     } else if (token === "" && !location.pathname.startsWith("/login")) {
-      // navigate("/main/home");
       navigate("/login");
     }
   }, []);
-
-  // useEffect(() => {
-  //   console.log(Taro.getCurrentPages());
-  // }, [location]);
 
   return (
     <Routes>

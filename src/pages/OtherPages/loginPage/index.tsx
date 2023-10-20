@@ -24,12 +24,8 @@ export function LoginPage() {
   const [toastOpen3, setToastOpen3] = useState<boolean>(false);
 
   function LoginForm() {
-    const [userId, setUserId] = useState<string>("");
-    const [userPass, setUserPass] = useState<string>("");
 
     function clickLogin(event: BaseEventOrig<FormProps.onSubmitEventDetail>) {
-      // console.log(event);
-      // const info = event;
       let info = event.detail.value as ILogin;
       if (
         info.username !== "" &&
@@ -93,35 +89,6 @@ export function LoginPage() {
           </Button>
         </View>
       </Form>
-      // <View className="login-form">
-      //   <Cell className="login-cell">
-      //     <div>用户名</div>
-      //     <div>
-      //       <Input
-      //         type="text"
-      //         placeholder="请输入用户名"
-      //         onInput={(e) => setUserId(e.detail.value)}
-      //       />
-      //     </div>
-      //   </Cell>
-      //   <Toast open={toastOpen2}>密码或用户名错误</Toast>
-      //   <Toast open={toastOpen3}>服务端错误，请稍后重试</Toast>
-      //   <Cell className="login-cell">
-      //     <Text>密码</Text>
-      //     <Input
-      //       password
-      //       placeholder="请输入密码"
-      //       onInput={(e) => setUserPass(e.detail.value)}
-      //     />
-      //   </Cell>
-      //   <Button
-      //     onClick={() => {
-      //       clickLogin({ username: userId, password: userPass });
-      //     }}
-      //   >
-      //     进入空间
-      //   </Button>
-      // </View>
     );
   }
 
@@ -133,21 +100,13 @@ export function LoginPage() {
   return (
     <>
       <div className="login-page">
-        {/* <div className="login-board"> */}
-        {/* <PasswordInput length={6} />
-          <Button onClick={clickLogin}>登录</Button> */}
         <Toast open={toastOpen1}>
           该程序只为一人编写，若您无意进入敬请离开
         </Toast>
         <h1 style={{ color: "rgb(240, 120, 186)", marginBottom: "5vh" }}>
-          {/* my晴宝 */}
+          my晴宝
         </h1>
         <LoginForm />
-
-        
-        {/* <img src={imgtest} /> */}
-        {/* <BasicForm /> */}
-        {/* </div> */}
       </div>
     </>
   );

@@ -8,11 +8,10 @@ import {
   Dialog,
   Notify,
 } from "@taroify/core";
-import { BASEURL, IGetToken, IStaticToken, IUploadPic } from "@/globe/inter";
+import { BASEURL, IUploadPic } from "@/globe/inter";
 import { Service, appendParams2Path } from "@/globe/service";
 import { useEffect, useRef, useState } from "react";
 import { Image } from "@tarojs/components";
-import { useLocation } from "react-router-dom";
 import Taro from "@tarojs/taro";
 
 import "./index.scss";
@@ -25,79 +24,74 @@ interface IImageLine {
   theme: ITheme;
   picArr: string[] | null;
 }
+interface IHome {
+  imgLoadRef: React.MutableRefObject<boolean>;
+}
 
-export function Home() {
-  // let themePicArr;
-  const [reload, setReload] = useState<boolean>(false);
-  const location = useLocation();
+export function Home(/*imgLoad: IHome*/) {
   const [themePicArr, setThemePicArr] = useState<(string[] | null)[]>();
   //标记上传或删除
   const [uploadFlag, setUploadFlag] = useState<boolean>(false);
-  // const uploadFlag = useRef(false);
-  // const [staticToken, setStaticToken] = useState<string>();
   const staticToken = useRef<string>("");
   const ArrayNum = useRef<number[][]>();
   const swiperPicArr = useRef<string[]>();
-  const [arrayNum, setArrayNum] = useState<number[][]>();
 
   useEffect(() => {
-    console.log("token:", Taro.getStorageSync("token"));
-    Service.getPicThemeArr({ imageIndex: "theme" }).then(async (res) => {
-      ArrayNum.current = res.data.data !== null ? res.data.data : undefined;
-      let allPicNum: number = 3; //初值为3因为有轮播图
-      if (ArrayNum.current !== undefined) {
-        for (let i = 0; i < ArrayNum.current.length; i++) {
-          allPicNum =
-            allPicNum +
-            (ArrayNum.current[i] !== null ? ArrayNum.current[i].length : 0);
-        }
-        console.log(ArrayNum, allPicNum);
-      }
-      const r = await Service.getToken({ time: allPicNum.toString() });
-      const token = r.data.data;
-      staticToken.current = token;
-      // console.log("once_token:", token, staticToken);
-      // console.log("instaticToken:", staticToken.current);
-
-      //轮播图
-      swiperPicArr.current = Array.from({ length: 3 }).map((_item, index) => {
-        return (
-          BASEURL +
-          appendParams2Path("/static/getPicSwiper", {
-            id: (index + 1).toString(),
-            token: staticToken.current,
-          })
-        );
-      });
-      if (ArrayNum.current !== undefined && ArrayNum.current !== null) {
-        const tempArr = ArrayNum.current.map((item, index) => {
-          //themePicArr[0]赋值为 长度为2的数组，每个元素包含着对应图片的url
-          if (item === null) {
-            return null;
+      console.log("token:", Taro.getStorageSync("token"));
+      Service.getPicThemeArr({ imageIndex: "theme" }).then(async (res) => {
+        ArrayNum.current = res.data.data !== null ? res.data.data : undefined;
+        let allPicNum: number = 3; //初值为3因为有轮播图
+        if (ArrayNum.current !== undefined) {
+          for (let i = 0; i < ArrayNum.current.length; i++) {
+            allPicNum =
+              allPicNum +
+              (ArrayNum.current[i] !== null ? ArrayNum.current[i].length : 0);
           }
-          return item.map((item2, _index) => {
-            // _index为数组下标,item2为元素
-            return (
-              BASEURL +
-              appendParams2Path("/static/getPicTheme", {
-                //index+1为图片主题 - i为该主题下的图片
-                //TODO：i需要根据查询数据库结果得到，待修改
-                id: `${index + 1}-${item2}`,
-                token: staticToken.current,
-              })
-            );
-          });
+          console.log(ArrayNum, allPicNum);
+        }
+        const r = await Service.getToken({ time: allPicNum.toString() });
+        const token = r.data.data;
+        staticToken.current = token;
+
+        //轮播图
+        swiperPicArr.current = Array.from({ length: 3 }).map((_item, index) => {
+          return (
+            BASEURL +
+            appendParams2Path("/static/getPicSwiper", {
+              id: (index + 1).toString(),
+              token: staticToken.current,
+            })
+          );
         });
-        console.log("tempArr:", tempArr);
-        setThemePicArr(tempArr);
-      }
-    });
+        if (ArrayNum.current !== undefined && ArrayNum.current !== null) {
+          const tempArr = ArrayNum.current.map((item, index) => {
+            //themePicArr[0]赋值为 长度为2的数组，每个元素包含着对应图片的url
+            if (item === null) {
+              return null;
+            }
+            return item.map((item2, _index) => {
+              // _index为数组下标,item2为元素
+              return (
+                BASEURL +
+                appendParams2Path("/static/getPicTheme", {
+                  //index+1为图片主题 - i为该主题下的图片
+                  //TODO：i需要根据查询数据库结果得到，待修改
+                  id: `${index + 1}-${item2}`,
+                  token: staticToken.current,
+                })
+              );
+            });
+          });
+          console.log("tempArr:", tempArr);
+          setThemePicArr(tempArr);
+        }
+      });
   }, [uploadFlag]);
 
   function ImageSwiper() {
     return (
       <>
-        {/* {swiperPicArr.current === undefined || swiperPicArr.current === null ? (
+        {swiperPicArr.current === undefined || swiperPicArr.current === null ? (
           <>暂无数据</>
         ) : (
           <Swiper className="image-swiper" lazyRender autoplay={4000}>
@@ -124,7 +118,7 @@ export function Home() {
               />
             </Swiper.Item>
           </Swiper>
-        )} */}
+        )}
       </>
     );
   }
@@ -152,7 +146,6 @@ export function Home() {
           console.log(res);
           if (res.data.data === true) {
             setUploadFlag(!uploadFlag);
-            // uploadFlag.current = !uploadFlag.current;
           } else {
             Notify.open("呜呜呜删除失败了");
           }
@@ -196,29 +189,26 @@ export function Home() {
     }
 
     function ImageLine(props: IImageLine) {
-      // console.log(props);
-      // if (props === null) {
-      //   return <>暂无图片，快上传吧！</>;
-      // }
       function ImageUploader() {
         const [file, setFile] = useState<Uploader.File>();
         const successFunc = async (res: IUploadPic) => {
           const fileArr = res.tempFilePaths;
-          console.log("fileArr:",fileArr)
+          console.log("fileArr:", fileArr);
           let isUpLoad = false;
           for (let i = 0; i < res.tempFiles.length; i++) {
             await Service.postPicTheme({
               imageIndex: props.theme.key,
               file: fileArr[i],
-            }).then((rest) => {
-              console.log("res:",rest)
-              isUpLoad = true;
-            }).catch((r)=>console.log(r));
+            })
+              .then((rest) => {
+                console.log("res:", rest);
+                isUpLoad = true;
+              })
+              .catch((r) => console.log(r));
           }
           if (isUpLoad) {
-            console.log(isUpLoad)
+            console.log(isUpLoad);
             setUploadFlag(!uploadFlag);
-            // uploadFlag.current = !uploadFlag.current;
           }
         };
 
@@ -268,16 +258,25 @@ export function Home() {
                     <Image
                       style="border-radius: 15%;height: 100%; width:100%;margin-top:18%;"
                       mode="scaleToFill"
-                      // src=""
                       src={item}
+                      //TODO 请求间隔成功，用apifox模拟，目前考虑问题在后端
                       onClick={() => {
-                        let current = item; //这里获取到的是一张本地的图片
-                        console.log("1item:", item);
-                        Taro.previewImage({
-                          current: current, //需要预览的图片链接列表
-                          urls: [current], //当前显示图片的链接
-                          enablesavephoto: true,
-                          enableShowPhotoDownload: true,
+                        Service.getToken({ time: "1" }).then(async (newT) => {
+                          let strArr = item.split("?");
+                          let uri = strArr[0];
+                          const regexp = new RegExp("(?!id=)\\d+-\\d+(?=&)");
+                          const id_ = strArr[1].match(regexp);
+                          const current = appendParams2Path(uri, {
+                            id: id_ !== null ? id_[0] : "",
+                            token: newT.data.data,
+                          });
+                          console.log(current);
+                          await Taro.previewImage({
+                            current: current, //需要预览的图片链接列表
+                            urls: [current], //当前显示图片的链接
+                            enablesavephoto: true,
+                            enableShowPhotoDownload: true,
+                          });
                         });
                       }}
                     />
@@ -298,23 +297,23 @@ export function Home() {
       <>
         {themePicArr != undefined && themePicArr != null ? (
           <>
-            {/* <ImageLine
+            <ImageLine
               theme={{ key: "theme1", value: "我们" }}
               picArr={themePicArr[0]}
-            /> */}
+            />
             <ConfirmDialog />
             <ImageLine
               theme={{ key: "theme2", value: "美食" }}
               picArr={themePicArr[1]}
             />
-            {/* <ImageLine
+            <ImageLine
               theme={{ key: "theme3", value: "晴宝" }}
               picArr={themePicArr[2]}
             />
             <ImageLine
               theme={{ key: "theme4", value: "宋宋" }}
               picArr={themePicArr[3]}
-            /> */}
+            />
           </>
         ) : (
           <>暂无可展示数据</>
@@ -322,19 +321,16 @@ export function Home() {
       </>
     );
   }
-
-  const [imgtest, setImgtest] = useState("");
-
   return (
     <div className="home-page">
       <Notify id="notify" />
-      {/* <div className="title">
+      <div className="title">
         <div>
           宋宋
           <Like color="red" />
           晴宝
         </div>
-      </div> */}
+      </div>
       <div className="pic-swiper">
         <ImageSwiper />
       </div>
