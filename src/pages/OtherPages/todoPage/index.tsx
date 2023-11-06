@@ -332,7 +332,7 @@ export function Todo() {
                     color="danger"
                     onClick={() => haveDelete(index)}
                     //TODO:这里好像是有个展示bug的，此处是希望无数据时展示初始化的，初始化item当然不能删除
-                    disabled={item.isDone === 2 ? false : true}
+                    disabled={item.isDone === 2 ? true : false}
                   >
                     删除
                   </Button>
