@@ -88,6 +88,7 @@ export function Todo() {
         let listNotDone = list.filter(checkNotDone).sort(sortByDDL);
         let listDone = list.filter(checkDone).sort(sortByDDL);
         setListQingDone(listDone);
+        console.log(listQingDone)
         setListQing(listNotDone);
       }
     });
@@ -238,38 +239,6 @@ export function Todo() {
         }
       });
     }
-    // function haveSubscribe(index: number) {
-    //   // setDialogSubscribe(true);
-    //   let tempArr = props.list;
-    //   let prop: ISendSubscribeToBack = {
-    //     title: tempArr[index].title,
-    //     createTime: tempArr[index].createTime,
-    //     remindTime: remindT.toString(),
-    //   };
-    //   if (subscribeSubmit === true) {
-    //     console.log("run");
-    //     setSubscribeSubmit(false);
-    //   }
-    //   // subscribeMessage(prop);
-    // }
-    // function subscribeMessage(prop: ISendSubscribeToBack) {
-    //   Taro.requestSubscribeMessage({
-    //     tmplIds: ["E1LpkkP8-8XoNI9dRXRrSw10GxgYuyECbAesyP9VVL0"],
-    //     success: function (res) {
-    //       console.log(res);
-    //       //TODO:该请求需要增加字段以区分对应待办
-    //       Service.sendSubscribeToBack({
-    //         title: prop.title,
-    //         createTime: prop.createTime,
-    //         remindTime: prop.remindTime,
-    //       });
-    //       setDialogSubscribe(false);
-    //     },
-    //     fail: function (err) {
-    //       console.log(err);
-    //     },
-    //   });
-    // }
 
     return (
       <>
@@ -321,12 +290,6 @@ export function Todo() {
             </div>
           </Dialog.Content>
         </Dialog>
-        {/* <Dialog open={dialogSubscribe} onClose={setDialogSubscribe}>
-          <Dialog.Content>
-            <DateTimePicker />
-            <Button onClick={()=>setSubscribeSubmit(true)}>确认添加待办提醒</Button>
-          </Dialog.Content>
-        </Dialog> */}
         <List>
           {props.list.map((item, index) => (
             <>
@@ -382,7 +345,7 @@ export function Todo() {
                     color="danger"
                     onClick={() => haveDelete(index)}
                     //TODO:这里好像是有个展示bug的，此处是希望无数据时展示初始化的，初始化item当然不能删除
-                    disabled={item.isDone === 2 ? false : true}
+                    disabled={item.isDone === 2 ? true : false}
                   >
                     删除
                   </Button>
