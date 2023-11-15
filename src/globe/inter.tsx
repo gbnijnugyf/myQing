@@ -64,6 +64,7 @@ export interface IStaticToken{
   time:number
 }
 
+// export const BASEURL = "http://localhost:8080";
 export const BASEURL = "https://zqsongsong.top";
 export const TEMPLIdS = "E1LpkkP8-8XoNI9dRXRrS7UzLJ3z80zrWlYC8rYUJbY";
 

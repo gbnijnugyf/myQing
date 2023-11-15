@@ -137,8 +137,7 @@ export function Todo() {
       function subscribeMessage(prop: ISendSubscribeToBack) {
         Taro.requestSubscribeMessage({
           tmplIds: [TEMPLIdS],
-          success: function (res) {
-            console.log(res);
+          success: function () {
             Service.sendSubscribeToBack({
               todoInfo: {
                 title: prop.todoInfo.title,
@@ -216,7 +215,6 @@ export function Todo() {
     }
     function haveDelete(index: number) {
       let tempArr = props.list;
-      console.log(tempArr, tempArr[index].createTime);
       Service.deleteTodoItem({
         title: tempArr[index].title,
         whos: tempArr[index].whos,

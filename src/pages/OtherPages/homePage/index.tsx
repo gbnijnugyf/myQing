@@ -34,7 +34,6 @@ export function Home(/*imgLoad: IHome*/) {
   const swiperPicArr = useRef<string[]>();
 
   useEffect(() => {
-      console.log("token:", Taro.getStorageSync("token"));
       Service.getPicThemeArr({ imageIndex: "theme" }).then(async (res) => {
         ArrayNum.current = res.data.data !== null ? res.data.data : undefined;
         let allPicNum: number = 3; //初值为3因为有轮播图
@@ -44,7 +43,6 @@ export function Home(/*imgLoad: IHome*/) {
               allPicNum +
               (ArrayNum.current[i] !== null ? ArrayNum.current[i].length : 0);
           }
-          console.log(ArrayNum, allPicNum);
         }
         const r = await Service.getToken({ time: allPicNum.toString() });
         const token = r.data.data;
@@ -79,7 +77,6 @@ export function Home(/*imgLoad: IHome*/) {
               );
             });
           });
-          console.log("tempArr:", tempArr);
           setThemePicArr(tempArr);
         }
       });
@@ -134,13 +131,10 @@ export function Home(/*imgLoad: IHome*/) {
     function imageDelete(getImageUrl: string) {
       const regex = new RegExp("(?!id=)\\d+-\\d+(?=&)");
       const match = getImageUrl.match(regex);
-      console.log(getImageUrl, match);
       if (match === null) {
         Notify.open("呜呜呜删除失败了");
       } else {
-        console.log("theme" + match[0]);
         Service.deletePicTheme({ picName: "theme" + match[0] }).then((res) => {
-          console.log(res);
           if (res.data.data === true) {
             setUploadFlag(!uploadFlag);
           } else {
@@ -190,15 +184,13 @@ export function Home(/*imgLoad: IHome*/) {
         const [file, setFile] = useState<Uploader.File>();
         const successFunc = async (res: IUploadPic) => {
           const fileArr = res.tempFilePaths;
-          console.log("fileArr:", fileArr);
           let isUpLoad = false;
           for (let i = 0; i < res.tempFiles.length; i++) {
             await Service.postPicTheme({
               imageIndex: props.theme.key,
               file: fileArr[i],
             })
-              .then((rest) => {
-                console.log("res:", rest);
+              .then(() => {
                 isUpLoad = true;
               })
               .catch((r) => console.log(r));
@@ -267,7 +259,6 @@ export function Home(/*imgLoad: IHome*/) {
                             id: id_ !== null ? id_[0] : "",
                             token: newT.data.data,
                           });
-                          console.log(current);
                           await Taro.previewImage({
                             current: current, //需要预览的图片链接列表
                             urls: [current], //当前显示图片的链接

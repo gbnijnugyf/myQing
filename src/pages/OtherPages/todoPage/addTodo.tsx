@@ -46,7 +46,6 @@ export function AddTodo(prop: IAddTodo) {
   const [toast, setToast] = useState<boolean>(false);
 
   function clickAdd(props: ITodoItem) {
-    console.log(props);
     if (props.title === "" || props.timeStart === "" || props.detail === "") {
       setToast(true);
       return;
@@ -107,7 +106,6 @@ export function AddTodo(prop: IAddTodo) {
               value={value}
               onChange={setValue}
               onConfirm={(newValue) => {
-                console.log([...newValue][0], typeof [...newValue][0]);
                 if (newValue?.length) {
                   setTime([
                     androidTimeType([...newValue][0]),
